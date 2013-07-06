@@ -1,0 +1,26 @@
+{
+  "name": "gulp-jade",
+  "version": "0.0.1",
+  "description": "Compile Jade templates",
+  "keywords": [
+    "gulpplugin"
+  ],
+  "repository": "https://github.com/phated/gulp-jade.git",
+  "author": "Blaine Bublitz <blaine@iceddev.com>",
+  "dependencies": {
+    "event-stream": "~3.0.15",
+    "jade": "~0.32.0"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": ">= 0.8"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.0",
+    "chai": "~1.7.2",
+    "gulp": "~0.0.5"
+  }
+}
