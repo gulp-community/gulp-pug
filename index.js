@@ -1,14 +1,14 @@
 var es = require('event-stream');
 var compile = require('jade').compile;
-var copy = require('copy');
+var clone = require('clone');
 
 module.exports = function(options) {
 	'use strict';
 
-	var opts = options ? copy(options) : {};
+	var opts = options ? clone(options) : {};
 
 	function jade(file, callback) {
-		var newFile = copy(file);
+		var newFile = clone(file);
 		var compiled = compile(String(newFile.contents), opts);
 		var result = opts.client ? compiled.toString() : compiled(opts.data);
 		newFile.contents = new Buffer(result);
