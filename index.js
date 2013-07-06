@@ -8,12 +8,10 @@ module.exports = function(options) {
 
 	function jade(file, callback) {
 		var compiled = compile(String(file.contents), options);
-		var newFile = {
-			path: file.path,
-			contents: options.client ? compiled : compiled(options.data)
-		};
+		var result = options.client ? compiled.toString() : compiled(options.data);
+		file.contents = new Buffer(result);
 
-		callback(null, newFile);
+		callback(null, file);
 	}
 
 	return es.map(jade);
