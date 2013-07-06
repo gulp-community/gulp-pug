@@ -9,7 +9,8 @@
   "author": "Blaine Bublitz <blaine@iceddev.com>",
   "dependencies": {
     "event-stream": "~3.0.15",
-    "jade": "~0.32.0"
+    "jade": "~0.32.0",
+    "copy": "0.0.1"
   },
   "main": "index.js",
   "engines": {
