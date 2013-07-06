@@ -24,7 +24,7 @@ Compile to HTML
 var jade = require('gulp-jade');
 
 gulp.task('templates', function() {
-  gulp.files('./lib/*.js')
+  gulp.files('./lib/*.jade')
     .pipe(jade())
     .pipe(gulp.folder('./dist/'))
 });
@@ -36,7 +36,7 @@ Compile to JS
 var jade = require('gulp-jade');
 
 gulp.task('templates', function() {
-  gulp.files('./lib/*.js')
+  gulp.files('./lib/*.jade')
     .pipe(jade({
       client: true
     }))
