@@ -10,7 +10,8 @@
   "dependencies": {
     "event-stream": "~3.0.15",
     "jade": "~0.32.0",
-    "clone": "~0.1.9"
+    "clone": "~0.1.9",
+    "gulp-util": "0.0.1"
   },
   "main": "index.js",
   "engines": {
