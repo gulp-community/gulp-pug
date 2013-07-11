@@ -21,6 +21,7 @@ describe('gulp-jade compilation', function(){
       options = options || {};
       var ext = options.client ? '.js' : '.html';
       return es.map(function(file){
+        options.filename = filename;
         var compiled = jade.compile(fs.readFileSync(filename), options);
         var expected = options.client ? compiled.toString() : compiled(options.data);
         expect(expected).to.equal(String(file.contents));

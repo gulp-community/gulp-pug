@@ -10,6 +10,7 @@ module.exports = function(options){
 
   function jade(file, callback){
     var newFile = clone(file);
+    opts.filename = file.path;
     var compiled = compile(String(newFile.contents), opts);
     if(opts.client){
       newFile.path = ext(newFile.path, '.js');
