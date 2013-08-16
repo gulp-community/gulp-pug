@@ -24,9 +24,9 @@ Compile to HTML
 var jade = require('gulp-jade');
 
 gulp.task('templates', function() {
-  gulp.files('./lib/*.jade')
+  gulp.src('./lib/*.jade')
     .pipe(jade())
-    .pipe(gulp.folder('./dist/'))
+    .pipe(gulp.dest('./dist/'))
 });
 ```
 
@@ -36,11 +36,11 @@ Compile to JS
 var jade = require('gulp-jade');
 
 gulp.task('templates', function() {
-  gulp.files('./lib/*.jade')
+  gulp.src('./lib/*.jade')
     .pipe(jade({
       client: true
     }))
-    .pipe(gulp.folder('./dist/'))
+    .pipe(gulp.dest('./dist/'))
 });
 ```
 
