@@ -14,11 +14,11 @@ module.exports = function(options){
     var compiled = compile(String(newFile.contents), opts);
     if(opts.client){
       newFile.path = ext(newFile.path, '.js');
-      newFile.shortened = ext(newFile.shortened, '.js');
+      newFile.shortened = newFile.shortened && ext(newFile.shortened, '.js');
       newFile.contents = new Buffer(compiled.toString());
     } else {
       newFile.path = ext(newFile.path, '.html');
-      newFile.shortened = ext(newFile.shortened, '.html');
+      newFile.shortened = newFile.shortened && ext(newFile.shortened, '.html');
       newFile.contents = new Buffer(compiled(opts.data));
     }
 

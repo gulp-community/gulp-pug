@@ -26,19 +26,23 @@ describe('gulp-jade compilation', function(){
         var expected = options.client ? compiled.toString() : compiled(options.data);
         expect(expected).to.equal(String(file.contents));
         expect(extname(file.path)).to.equal(ext);
-        expect(extname(file.shortened)).to.equal(ext);
+        if(file.shortened){
+          expect(extname(file.shortened)).to.equal(ext);
+        } else {
+          expect(extname(file.shortened)).to.equal('');
+        }
         done();
       });
     }
 
     it('should compile my jade files into HTML', function(done){
-      gulp.file(filename)
+      gulp.src(filename)
         .pipe(task())
         .pipe(expectStream(done));
     });
 
     it('should compile my jade files into HTML with data passed in', function(done){
-      gulp.file(filename)
+      gulp.src(filename)
         .pipe(task({
           data: 'Yellow Curled'
         }))
@@ -48,7 +52,7 @@ describe('gulp-jade compilation', function(){
     });
 
     it('should compile my jade files into JS', function(done){
-      gulp.file(filename)
+      gulp.src(filename)
         .pipe(task({
           client: true
         }))
@@ -58,7 +62,7 @@ describe('gulp-jade compilation', function(){
     });
 
     it('should always return contents as buffer with client = true', function(done){
-      gulp.file(filename)
+      gulp.src(filename)
         .pipe(task({
           client: true
         }))
@@ -69,7 +73,7 @@ describe('gulp-jade compilation', function(){
     });
 
     it('should always return contents as buffer with client = false', function(done){
-      gulp.file(filename)
+      gulp.src(filename)
         .pipe(task())
         .pipe(es.map(function(file){
           expect(file.contents).to.be.instanceof(Buffer);
