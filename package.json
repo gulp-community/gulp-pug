@@ -1,6 +1,6 @@
 {
   "name": "gulp-jade",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Compile Jade templates",
   "keywords": [
     "gulpplugin"
@@ -23,6 +23,6 @@
   "devDependencies": {
     "mocha": "~1.12.0",
     "chai": "~1.7.2",
-    "gulp": "~0.0.5"
+    "gulp": "~0.2.0"
   }
 }
