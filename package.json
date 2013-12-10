@@ -9,9 +9,8 @@
   "author": "Blaine Bublitz <blaine@iceddev.com>",
   "dependencies": {
     "event-stream": "~3.0.15",
-    "jade": "~0.32.0",
-    "clone": "~0.1.9",
-    "gulp-util": "0.0.1"
+    "jade": "~0.35.0",
+    "gulp-util": "~1.2.0"
   },
   "main": "index.js",
   "engines": {
@@ -23,6 +22,6 @@
   "devDependencies": {
     "mocha": "~1.12.0",
     "chai": "~1.7.2",
-    "gulp": "~0.2.0"
+    "gulp": "~3.1.0"
   }
 }

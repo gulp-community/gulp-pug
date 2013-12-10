@@ -2,13 +2,18 @@ var expect = require('chai').expect;
 var task = require('../');
 var path = require('path');
 var fs = require('fs');
+var gutil = require('gulp-util');
  
 var filePath = path.join(__dirname, "fixtures", "extends.jade");
-var file = {
+var base = path.join(__dirname, "fixtures");
+var cwd = __dirname;
+
+var file = new gutil.File({
   path: filePath,
-  shortened: 'extends.jade',
+  base: base,
+  cwd: cwd,
   contents: fs.readFileSync(filePath)
-};
+});
 
 describe('gulp-jade', function () {
   "use strict";

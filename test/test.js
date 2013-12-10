@@ -26,10 +26,10 @@ describe('gulp-jade compilation', function(){
         var expected = options.client ? compiled.toString() : compiled(options.data);
         expect(expected).to.equal(String(file.contents));
         expect(extname(file.path)).to.equal(ext);
-        if(file.shortened){
-          expect(extname(file.shortened)).to.equal(ext);
+        if(file.relative){
+          expect(extname(file.relative)).to.equal(ext);
         } else {
-          expect(extname(file.shortened)).to.equal('');
+          expect(extname(file.relative)).to.equal('');
         }
         done();
       });
