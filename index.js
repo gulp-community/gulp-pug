@@ -1,28 +1,24 @@
 var es = require('event-stream');
 var compile = require('jade').compile;
-var clone = require('clone');
 var ext = require('gulp-util').replaceExtension;
 
 module.exports = function(options){
   'use strict';
 
-  var opts = options ? clone(options) : {};
+  var opts = options ? options : {};
 
   function jade(file, callback){
-    var newFile = clone(file);
     opts.filename = file.path;
-    var compiled = compile(String(newFile.contents), opts);
+    var compiled = compile(String(file.contents), opts);
     if(opts.client){
-      newFile.path = ext(newFile.path, '.js');
-      newFile.shortened = newFile.shortened && ext(newFile.shortened, '.js');
-      newFile.contents = new Buffer(compiled.toString());
+      file.path = ext(file.path, '.js');
+      file.contents = new Buffer(compiled.toString());
     } else {
-      newFile.path = ext(newFile.path, '.html');
-      newFile.shortened = newFile.shortened && ext(newFile.shortened, '.html');
-      newFile.contents = new Buffer(compiled(opts.data));
+      file.path = ext(file.path, '.html');
+      file.contents = new Buffer(compiled(opts.data));
     }
 
-    callback(null, newFile);
+    callback(null, file);
   }
 
   return es.map(jade);
