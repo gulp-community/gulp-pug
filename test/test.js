@@ -1,5 +1,8 @@
+'use strict';
+
+var test = require('tap').test;
+
 var gulp = require('gulp');
-var expect = require('chai').expect;
 var task = require('../');
 var jade = require('jade');
 var es = require('event-stream');
@@ -7,80 +10,68 @@ var path = require('path');
 var fs = require('fs');
 var extname = require('path').extname;
 
-require('mocha');
+var filename = path.join(__dirname, './fixtures/helloworld.jade');
 
-describe('gulp-jade compilation', function(){
-
-  'use strict';
-
-  describe('gulp-jade', function(){
-
-    var filename = path.join(__dirname, './fixtures/helloworld.jade');
-
-    function expectStream(done, options){
-      options = options || {};
-      var ext = options.client ? '.js' : '.html';
-      return es.map(function(file){
-        options.filename = filename;
-        var compiled = jade.compile(fs.readFileSync(filename), options);
-        var expected = options.client ? compiled.toString() : compiled(options.data);
-        expect(expected).to.equal(String(file.contents));
-        expect(extname(file.path)).to.equal(ext);
-        if(file.relative){
-          expect(extname(file.relative)).to.equal(ext);
-        } else {
-          expect(extname(file.relative)).to.equal('');
-        }
-        done();
-      });
+function expectStream(t, options){
+  options = options || {};
+  var ext = options.client ? '.js' : '.html';
+  return es.map(function(file){
+    options.filename = filename;
+    var compiled = jade.compile(fs.readFileSync(filename), options);
+    var expected = options.client ? compiled.toString() : compiled(options.data);
+    t.equal(expected, String(file.contents));
+    t.equal(extname(file.path), ext);
+    if(file.relative){
+      t.equal(extname(file.relative), ext);
+    } else {
+      t.equal(extname(file.relative), '');
     }
-
-    it('should compile my jade files into HTML', function(done){
-      gulp.src(filename)
-        .pipe(task())
-        .pipe(expectStream(done));
-    });
-
-    it('should compile my jade files into HTML with data passed in', function(done){
-      gulp.src(filename)
-        .pipe(task({
-          data: 'Yellow Curled'
-        }))
-        .pipe(expectStream(done, {
-          data: 'Yellow Curled'
-        }));
-    });
-
-    it('should compile my jade files into JS', function(done){
-      gulp.src(filename)
-        .pipe(task({
-          client: true
-        }))
-        .pipe(expectStream(done, {
-          client: true
-        }));
-    });
-
-    it('should always return contents as buffer with client = true', function(done){
-      gulp.src(filename)
-        .pipe(task({
-          client: true
-        }))
-        .pipe(es.map(function(file){
-          expect(file.contents).to.be.instanceof(Buffer);
-          done();
-        }));
-    });
-
-    it('should always return contents as buffer with client = false', function(done){
-      gulp.src(filename)
-        .pipe(task())
-        .pipe(es.map(function(file){
-          expect(file.contents).to.be.instanceof(Buffer);
-          done();
-        }));
-    });
-
+    t.end();
   });
+}
 
+test('should compile my jade files into HTML', function(t){
+  gulp.src(filename)
+    .pipe(task())
+    .pipe(expectStream(t));
+});
+
+test('should compile my jade files into HTML with data passed in', function(t){
+  gulp.src(filename)
+    .pipe(task({
+      data: 'Yellow Curled'
+    }))
+    .pipe(expectStream(t, {
+      data: 'Yellow Curled'
+    }));
+});
+
+test('should compile my jade files into JS', function(t){
+  gulp.src(filename)
+    .pipe(task({
+      client: true
+    }))
+    .pipe(expectStream(t, {
+      client: true
+    }));
+});
+
+test('should always return contents as buffer with client = true', function(t){
+  gulp.src(filename)
+    .pipe(task({
+      client: true
+    }))
+    .pipe(es.map(function(file){
+      t.ok(file.contents instanceof Buffer);
+      t.end();
+    }));
+});
+
+test('should always return contents as buffer with client = false', function(t){
+  gulp.src(filename)
+    .pipe(task())
+    .pipe(es.map(function(file){
+      t.ok(file.contents instanceof Buffer);
+      t.end();
+    }));
 });

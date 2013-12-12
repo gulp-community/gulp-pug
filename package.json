@@ -3,25 +3,27 @@
   "version": "0.1.0",
   "description": "Compile Jade templates",
   "keywords": [
-    "gulpplugin"
+    "jade",
+    "gulpplugin",
+    "stream",
+    "compile"
   ],
   "repository": "https://github.com/phated/gulp-jade.git",
   "author": "Blaine Bublitz <blaine@iceddev.com>",
   "dependencies": {
     "event-stream": "~3.0.15",
     "jade": "~0.35.0",
-    "gulp-util": "~1.2.0"
+    "gulp-util": "~2.1.1"
   },
   "main": "index.js",
   "engines": {
     "node": ">= 0.8"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "tap ./test"
   },
   "devDependencies": {
-    "mocha": "~1.12.0",
-    "chai": "~1.7.2",
-    "gulp": "~3.1.0"
+    "gulp": "~3.1.0",
+    "tap": "~0.4.6"
   }
 }

@@ -1,11 +1,14 @@
-var expect = require('chai').expect;
+'use strict';
+
+var test = require('tap').test;
+
 var task = require('../');
 var path = require('path');
 var fs = require('fs');
 var gutil = require('gulp-util');
- 
-var filePath = path.join(__dirname, "fixtures", "extends.jade");
-var base = path.join(__dirname, "fixtures");
+
+var filePath = path.join(__dirname, 'fixtures', 'extends.jade');
+var base = path.join(__dirname, 'fixtures');
 var cwd = __dirname;
 
 var file = new gutil.File({
@@ -15,19 +18,14 @@ var file = new gutil.File({
   contents: fs.readFileSync(filePath)
 });
 
-describe('gulp-jade', function () {
-  "use strict";
-  describe('extends', function () {
-    it('should compile a jade template with an extends', function (done) {
-      var stream = task();
-      stream.on('error', done);
-      stream.on('data', function (newFile) {
-        expect(newFile).to.be.ok;
-        expect(newFile.contents).to.be.ok;
-        expect(newFile.contents.toString()).to.equal('<div><h1>Hello World</h1></div>');
-        done();
-      });
-      stream.write(file);
-    });
+test('should compile a jade template with an extends', function(t){
+  var stream = task();
+  stream.on('error', t.end);
+  stream.on('data', function(newFile){
+    t.ok(newFile);
+    t.ok(newFile.contents);
+    t.equal(newFile.contents.toString(), '<div><h1>Hello World</h1></div>');
+    t.end();
   });
+  stream.write(file);
 });
