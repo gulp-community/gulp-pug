@@ -4,11 +4,16 @@ var es = require('event-stream');
 var compile = require('jade').compile;
 var ext = require('gulp-util').replaceExtension;
 var isStream = require('gulp-util').isStream;
+var isBuffer = require('gulp-util').isBuffer;
 
 module.exports = function(options){
   var opts = options || {};
 
   function jade(file, callback){
+    if(!isBuffer(file.contents) && !isStream(file.contents)){
+      return callback(new Error('gulp-jade: file contents must be a buffer or stream'));
+    }
+
     opts.filename = file.path;
 
     if(opts.client){
@@ -40,7 +45,7 @@ module.exports = function(options){
       file.contents = new Buffer(compiled(opts.data));
     }
 
-    callback(null, file);
+    return callback(null, file);
   }
 
   return es.map(jade);
