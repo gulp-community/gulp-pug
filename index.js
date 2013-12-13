@@ -6,46 +6,46 @@ var ext = require('gulp-util').replaceExtension;
 var isStream = require('gulp-util').isStream;
 var isBuffer = require('gulp-util').isBuffer;
 
+function handleCompile(contents, opts){
+  var compiled = compile(contents, opts);
+
+  if(opts.client){
+    return compiled.toString();
+  }
+
+  return compiled(opts.data);
+}
+
+function handleExtension(filepath, opts){
+  if(opts.client){
+    return ext(filepath, '.js');
+  }
+
+  return ext(filepath, '.html');
+}
+
 module.exports = function(options){
   var opts = options || {};
 
   function jade(file, callback){
-    if(!isBuffer(file.contents) && !isStream(file.contents)){
-      return callback(new Error('gulp-jade: file contents must be a buffer or stream'));
-    }
-
     opts.filename = file.path;
-
-    if(opts.client){
-      file.path = ext(file.path, '.js');
-    } else {
-      file.path = ext(file.path, '.html');
-    }
+    file.path = handleExtension(file.path, opts);
 
     if(isStream(file.contents)){
       var throughStream = es.through();
       var waitStream = es.wait(function(err, data){
-        var compiled = compile(data, opts);
-        if(opts.client){
-          throughStream.write(compiled.toString());
-        } else {
-          throughStream.write(compiled(opts.data));
-        }
+        throughStream.write(handleCompile(data, opts));
+        throughStream.end();
       });
       file.contents.pipe(waitStream);
       file.contents = throughStream;
-      return callback(null, file);
     }
 
-    var compiled = compile(String(file.contents), opts);
-
-    if(opts.client){
-      file.contents = new Buffer(compiled.toString());
-    } else {
-      file.contents = new Buffer(compiled(opts.data));
+    if(isBuffer(file.contents)){
+      file.contents = new Buffer(handleCompile(String(file.contents), opts));
     }
 
-    return callback(null, file);
+    callback(null, file);
   }
 
   return es.map(jade);

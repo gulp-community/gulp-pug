@@ -20,7 +20,6 @@ var file = new gutil.File({
 
 test('should compile a jade template with an extends', function(t){
   var stream = task();
-  stream.on('error', t.end);
   stream.on('data', function(newFile){
     t.ok(newFile);
     t.ok(newFile.contents);
