@@ -21,7 +21,7 @@ var file = new gutil.File({
   contents: fs.createReadStream(filePath)
 });
 
-test('should buffer the entire stream before compiling', { timeout: 500 }, function(t){
+test('should buffer the entire stream before compiling', { timeout: 1000 }, function(t){
   var stream = task();
   stream.on('data', function(file){
     file.contents.pipe(es.wait(function(err, data){
