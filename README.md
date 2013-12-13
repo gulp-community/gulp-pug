@@ -44,6 +44,27 @@ gulp.task('templates', function() {
 });
 ```
 
+## AMD
+
+If you are trying to wrap your Jade template functions in an AMD wrapper, use [`gulp-wrap-amd`](https://github.com/phated/gulp-wrap-amd)
+
+```javascript
+var jade = require('gulp-jade');
+var wrap = require('gulp-wrap-amd');
+
+gulp.task('templates', function() {
+  gulp.src('./lib/*.jade')
+    .pipe(jade({
+      client: true
+    }))
+    .pipe(wrap({
+      deps: ['jade'],
+      params: ['jade']
+    }))
+    .pipe(gulp.dest('./dist/'))
+});
+```
+
 ## LICENSE
 
 (MIT License)
