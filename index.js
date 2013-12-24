@@ -2,18 +2,17 @@
 
 var es = require('event-stream');
 var compile = require('jade').compile;
+var compileClient = require('jade').compileClient;
 var ext = require('gulp-util').replaceExtension;
 var isStream = require('gulp-util').isStream;
 var isBuffer = require('gulp-util').isBuffer;
 
 function handleCompile(contents, opts){
-  var compiled = compile(contents, opts);
-
   if(opts.client){
-    return compiled.toString();
+    return compileClient(contents, opts).toString();
   }
 
-  return compiled(opts.data);
+  return compile(contents, opts)(opts.data);
 }
 
 function handleExtension(filepath, opts){
