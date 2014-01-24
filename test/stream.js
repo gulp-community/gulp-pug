@@ -4,33 +4,27 @@ var test = require('tap').test;
 
 var task = require('../');
 
-var es = require('event-stream');
-var jade = require('jade');
 var path = require('path');
 var fs = require('fs');
-var gutil = require('gulp-util');
+var File = require('gulp-util').File;
+var PluginError = require('gulp-util').PluginError;
 
-var filePath = path.join(__dirname, 'fixtures', 'huge.jade');
+var filePath = path.join(__dirname, 'fixtures', 'helloworld.jade');
 var base = path.join(__dirname, 'fixtures');
 var cwd = __dirname;
 
-var file = new gutil.File({
+var file = new File({
   path: filePath,
   base: base,
   cwd: cwd,
   contents: fs.createReadStream(filePath)
 });
 
-test('should buffer the entire stream before compiling', function(t){
+test('should error if contents is a stream', function(t){
   var stream = task();
-  stream.on('data', function(file){
-    file.contents.pipe(es.wait(function(err, data){
-      if(err){
-        throw err;
-      }
-      t.equals(data, jade.renderFile(filePath), 'template should be compiled to html');
-      t.end();
-    }));
+  stream.on('error', function(err){
+    t.ok(err instanceof PluginError, 'not an instance of PluginError');
+    t.end();
   });
   stream.write(file);
   stream.end();

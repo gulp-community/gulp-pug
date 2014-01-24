@@ -1,11 +1,10 @@
 'use strict';
 
-var es = require('event-stream');
+var through = require('through2');
 var compile = require('jade').compile;
 var compileClient = require('jade').compileClient;
 var ext = require('gulp-util').replaceExtension;
-var isStream = require('gulp-util').isStream;
-var isBuffer = require('gulp-util').isBuffer;
+var PluginError = require('gulp-util').PluginError;
 
 function handleCompile(contents, opts){
   if(opts.client){
@@ -26,26 +25,22 @@ function handleExtension(filepath, opts){
 module.exports = function(options){
   var opts = options || {};
 
-  function jade(file, callback){
+  function CompileJade(file, enc, cb){
     opts.filename = file.path;
     file.path = handleExtension(file.path, opts);
 
-    if(isStream(file.contents)){
-      var throughStream = es.through();
-      var waitStream = es.wait(function(err, data){
-        throughStream.write(handleCompile(data, opts));
-        throughStream.end();
-      });
-      file.contents.pipe(waitStream);
-      file.contents = throughStream;
+    if(file.isStream()){
+      this.emit('error', new PluginError('gulp-jade', 'Streaming not supported'));
+      return cb();
     }
 
-    if(isBuffer(file.contents)){
+    if(file.isBuffer()){
       file.contents = new Buffer(handleCompile(String(file.contents), opts));
     }
 
-    callback(null, file);
+    this.push(file);
+    cb();
   }
 
-  return es.map(jade);
+  return through.obj(CompileJade);
 };

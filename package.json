@@ -11,9 +11,9 @@
   "repository": "https://github.com/phated/gulp-jade.git",
   "author": "Blaine Bublitz <blaine@iceddev.com>",
   "dependencies": {
-    "event-stream": "~3.0.15",
     "jade": "~1.1",
-    "gulp-util": "~2.1.1"
+    "gulp-util": "~2.2",
+    "through2": "~0.4"
   },
   "main": "index.js",
   "engines": {
@@ -23,7 +23,7 @@
     "test": "tap ./test"
   },
   "devDependencies": {
-    "gulp": "~3.1.0",
+    "gulp": "~3.4.0",
     "tap": "~0.4.6"
   }
 }

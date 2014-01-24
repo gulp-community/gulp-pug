@@ -5,7 +5,7 @@ var test = require('tap').test;
 var gulp = require('gulp');
 var task = require('../');
 var jade = require('jade');
-var es = require('event-stream');
+var through = require('through2');
 var path = require('path');
 var fs = require('fs');
 var extname = require('path').extname;
@@ -15,7 +15,7 @@ var filename = path.join(__dirname, './fixtures/helloworld.jade');
 function expectStream(t, options){
   options = options || {};
   var ext = options.client ? '.js' : '.html';
-  return es.map(function(file){
+  return through.obj(function(file, enc, cb){
     options.filename = filename;
     var compiled = jade.compile(fs.readFileSync(filename), options);
     var expected = options.client ? compiled.toString() : compiled(options.data);
@@ -27,6 +27,7 @@ function expectStream(t, options){
       t.equal(extname(file.relative), '');
     }
     t.end();
+    cb();
   });
 }
 
@@ -61,17 +62,19 @@ test('should always return contents as buffer with client = true', function(t){
     .pipe(task({
       client: true
     }))
-    .pipe(es.map(function(file){
+    .pipe(through.obj(function(file, enc, cb){
       t.ok(file.contents instanceof Buffer);
       t.end();
+      cb();
     }));
 });
 
 test('should always return contents as buffer with client = false', function(t){
   gulp.src(filename)
     .pipe(task())
-    .pipe(es.map(function(file){
+    .pipe(through.obj(function(file, enc, cb){
       t.ok(file.contents instanceof Buffer);
       t.end();
+      cb();
     }));
 });
