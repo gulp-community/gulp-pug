@@ -37,6 +37,16 @@ test('should compile my jade files into HTML', function(t){
     .pipe(expectStream(t));
 });
 
+test('should compile my jade files into HTML with locals passed in', function(t){
+  gulp.src(filename)
+    .pipe(task({
+      locals: 'Yellow Curled'
+    }))
+    .pipe(expectStream(t, {
+      locals: 'Yellow Curled'
+    }));
+});
+
 test('should compile my jade files into HTML with data passed in', function(t){
   gulp.src(filename)
     .pipe(task({

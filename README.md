@@ -24,8 +24,12 @@ Compile to HTML
 var jade = require('gulp-jade');
 
 gulp.task('templates', function() {
+  var YOUR_LOCALS = {};
+
   gulp.src('./lib/*.jade')
-    .pipe(jade())
+    .pipe(jade({
+      locals: YOUR_LOCALS
+    }))
     .pipe(gulp.dest('./dist/'))
 });
 ```
@@ -43,6 +47,12 @@ gulp.task('templates', function() {
     .pipe(gulp.dest('./dist/'))
 });
 ```
+
+## Options
+
+All options supported by the [Jade API](http://jade-lang.com/api/) are supported
+
+In addition, you can pass in a `locals` or `data` option that will be used as locals for your HTML compilation.  The `locals` option takes precedence over the `data` option.
 
 ## AMD
 

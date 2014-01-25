@@ -11,7 +11,7 @@ function handleCompile(contents, opts){
     return compileClient(contents, opts).toString();
   }
 
-  return compile(contents, opts)(opts.data);
+  return compile(contents, opts)(opts.locals || opts.data);
 }
 
 function handleExtension(filepath, opts){
