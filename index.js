@@ -8,7 +8,7 @@ var PluginError = require('gulp-util').PluginError;
 
 function handleCompile(contents, opts){
   if(opts.client){
-    return compileClient(contents, opts).toString();
+    return compileClient(contents, opts);
   }
 
   return compile(contents, opts)(opts.locals || opts.data);

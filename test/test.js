@@ -15,10 +15,11 @@ var filename = path.join(__dirname, './fixtures/helloworld.jade');
 function expectStream(t, options){
   options = options || {};
   var ext = options.client ? '.js' : '.html';
+  var compiler = options.client ? jade.compileClient : jade.compile;
   return through.obj(function(file, enc, cb){
     options.filename = filename;
-    var compiled = jade.compile(fs.readFileSync(filename), options);
-    var expected = options.client ? compiled.toString() : compiled(options.data);
+    var compiled = compiler(fs.readFileSync(filename), options);
+    var expected = options.client ? compiled : compiled(options.data);
     t.equal(expected, String(file.contents));
     t.equal(extname(file.path), ext);
     if(file.relative){
