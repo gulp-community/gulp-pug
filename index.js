@@ -35,7 +35,11 @@ module.exports = function(options){
     }
 
     if(file.isBuffer()){
-      file.contents = new Buffer(handleCompile(String(file.contents), opts));
+      try {
+        file.contents = new Buffer(handleCompile(String(file.contents), opts));
+      } catch(e) {
+        this.emit('error', new Error(e))
+      }
     }
 
     this.push(file);
