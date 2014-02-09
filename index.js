@@ -38,7 +38,7 @@ module.exports = function(options){
       try {
         file.contents = new Buffer(handleCompile(String(file.contents), opts));
       } catch(e) {
-        this.emit('error', new Error(e));
+        this.emit('error', e);
       }
     }
 
