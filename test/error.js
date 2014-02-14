@@ -13,6 +13,7 @@ test('should emit errors of jade correctly', function(t){
     .pipe(task()
       .on('error', function(err){
         t.ok(err);
+        t.ok(err instanceof Error);
         t.end();
       }));
 });
