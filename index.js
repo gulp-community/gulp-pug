@@ -35,15 +35,12 @@ module.exports = function(options){
       return cb();
     }
     
-    //normalize locals so we can figure out if it's a function
-    opts.data = opts.data||opts.locals;
-    delete opts.locals;
-   
+    
     //make both synchronous and asynchronous data parameters act the same way
-    var dataFunction = opts.data;
+    var dataFunction = opts.locals||opts.data;
     if(typeof dataFunction !='function'){
     	dataFunction = function(filepath,_cb){    		
-    		_cb(opts.data);
+    		_cb(opts.locals||opts.data);
     	};
     }
     
