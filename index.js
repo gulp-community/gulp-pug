@@ -48,8 +48,14 @@ module.exports = function(options){
     //do this async with file.path used to give difference possible data results
     var self = this;
     var filepath = path.relative(file.base,file.path);
-    dataFunction(filepath,function(data){
-    	
+    var returnResult=false;
+    
+    var processData=function(data){
+    	if(!data&&!returnResult){
+    		returnResult=true;
+    		return;
+    	}
+    		
     	if(file.isBuffer()){
     	      try {
     	        file.contents = new Buffer(handleCompile(String(file.contents), opts, data));
@@ -60,8 +66,11 @@ module.exports = function(options){
 
     	self.push(file);
     	cb();
-    });
+    };
     
+    var result = dataFunction(filepath,processData);
+    if(returnResult)
+    	processData(result);
     
   }
 
