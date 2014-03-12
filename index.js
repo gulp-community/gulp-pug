@@ -6,12 +6,12 @@ var compileClient = require('jade').compileClient;
 var ext = require('gulp-util').replaceExtension;
 var PluginError = require('gulp-util').PluginError;
 
-function handleCompile(contents, opts){
+function handleCompile(contents, opts, data){
   if(opts.client){
     return compileClient(contents, opts);
   }
 
-  return compile(contents, opts)(opts.locals || opts.data);
+  return compile(contents, opts)(data);
 }
 
 function handleExtension(filepath, opts){
@@ -28,22 +28,42 @@ module.exports = function(options){
   function CompileJade(file, enc, cb){
     opts.filename = file.path;
     file.path = handleExtension(file.path, opts);
+        
 
     if(file.isStream()){
       this.emit('error', new PluginError('gulp-jade', 'Streaming not supported'));
       return cb();
     }
-
-    if(file.isBuffer()){
-      try {
-        file.contents = new Buffer(handleCompile(String(file.contents), opts));
-      } catch(e) {
-        this.emit('error', e);
-      }
+    
+    //normalize locals so we can figure out if it's a function
+    opts.data = opts.data||opts.locals;
+    delete opts.locals;
+   
+    //make both synchronous and asynchronous data parameters act the same way
+    var dataFunction = opts.data;
+    if(typeof dataFunction !='function'){
+    	dataFunction = function(filepath,_cb){    		
+    		_cb(opts.data);
+    	};
     }
+    
+    //do this async with file.path used to give difference possible data results
+    var self = this;
+    dataFunction(file.path,function(data){
+    	
+    	if(file.isBuffer()){
+    	      try {
+    	        file.contents = new Buffer(handleCompile(String(file.contents), opts, data));
+    	      } catch(e) {
+    	    	  self.emit('error', e);
+    	      }
+    	}
 
-    this.push(file);
-    cb();
+    	self.push(file);
+    	cb();
+    });
+    
+    
   }
 
   return through.obj(CompileJade);
