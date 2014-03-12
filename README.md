@@ -54,6 +54,24 @@ All options supported by the [Jade API](http://jade-lang.com/api/) are supported
 
 In addition, you can pass in a `locals` or `data` option that will be used as locals for your HTML compilation.  The `locals` option takes precedence over the `data` option.
 
+You can also pass in a function in place of `locals` or `data`. This function can either return your template data or pass the template data into a callback function.
+
+```javascript
+var jade = require('gulp-jade');
+
+gulp.task('templates', function() {
+  var YOUR_LOCALS = function(filepath,cb){
+	cb({"foo":"bar"});
+  };
+
+  gulp.src('./lib/*.jade')
+    .pipe(jade({
+      locals: YOUR_LOCALS
+    }))
+    .pipe(gulp.dest('./dist/'))
+});
+```
+
 ## AMD
 
 If you are trying to wrap your Jade template functions in an AMD wrapper, use [`gulp-wrap-amd`](https://github.com/phated/gulp-wrap-amd)
