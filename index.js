@@ -4,6 +4,7 @@ var through = require('through2');
 var compile = require('jade').compile;
 var compileClient = require('jade').compileClient;
 var ext = require('gulp-util').replaceExtension;
+var path = require('path');
 var PluginError = require('gulp-util').PluginError;
 
 function handleCompile(contents, opts, data){
@@ -38,7 +39,7 @@ module.exports = function(options){
     
     //make both synchronous and asynchronous data parameters act the same way
     var dataFunction = opts.locals||opts.data;
-    if(typeof dataFunction !='function'){
+    if(typeof dataFunction != 'function'){
     	dataFunction = function(filepath,_cb){    		
     		_cb(opts.locals||opts.data);
     	};
@@ -46,7 +47,8 @@ module.exports = function(options){
     
     //do this async with file.path used to give difference possible data results
     var self = this;
-    dataFunction(file.path,function(data){
+    var filepath = path.relative(file.base,file.path);
+    dataFunction(filepath,function(data){
     	
     	if(file.isBuffer()){
     	      try {
