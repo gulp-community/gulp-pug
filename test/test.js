@@ -19,7 +19,7 @@ function expectStream(t, options){
   return through.obj(function(file, enc, cb){
     options.filename = filename;
     var compiled = compiler(fs.readFileSync(filename), options);
-    var expected = options.client ? compiled : compiled(options.data);
+    var expected = options.client ? compiled : compiled(options.data || options.locals);
     t.equal(expected, String(file.contents));
     t.equal(extname(file.path), ext);
     if(file.relative){
