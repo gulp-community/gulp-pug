@@ -12,6 +12,18 @@ var extname = require('path').extname;
 
 var filename = path.join(__dirname, './fixtures/helloworld.jade');
 
+// Mock Data Plugin
+// (not testing the gulp-data plugin options, just that gulp-jade can get its data from file.data)
+var setData = function(){
+  return through.obj(function(file, enc, callback) {
+    file.data = {
+      title: 'Greetings!'
+    };
+    this.push(file);
+    return callback();
+  });
+};
+
 function expectStream(t, options){
   options = options || {};
   var ext = options.client ? '.js' : '.html';
@@ -62,6 +74,17 @@ test('should compile my jade files into HTML with data passed in', function(t){
     .pipe(expectStream(t, {
       data: {
         title: 'Yellow Curled'
+      }
+    }));
+});
+
+test('should compile my jade files into HTML with data property', function(t){
+  gulp.src(filename)
+    .pipe(setData())
+    .pipe(task())
+    .pipe(expectStream(t, {
+      data: {
+        title: 'Greetings!'
       }
     }));
 });
