@@ -18,7 +18,6 @@ function handleExtension(filepath, opts){
   if(opts.client){
     return ext(filepath, '.js');
   }
-
   return ext(filepath, '.html');
 }
 
@@ -27,6 +26,11 @@ module.exports = function(options){
 
   function CompileJade(file, enc, cb){
     opts.filename = file.path;
+
+    if (file.data) {
+      opts.data = file.data;
+    }
+
     file.path = handleExtension(file.path, opts);
 
     if(file.isStream()){
