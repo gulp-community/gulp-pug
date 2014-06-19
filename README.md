@@ -75,6 +75,49 @@ gulp.task('templates', function() {
 });
 ```
 
+## Use with [gulp-data](https://www.npmjs.org/package/gulp-data)
+
+As an alternative, the ```gulp-data``` plugin, is a standard method for piping data down-stream to other plugins that need data in the form of a new file property ```file.data```. If you have data from a JSON file, front-matter, a database, or anything really, use ```gulp-data``` to pass that data to gulp-jade.
+
+Retrieve data from a JSON file, keyed on file name:
+
+```
+var getJsonData = function(file, cb) {
+  var jsonPath = './examples/' + path.basename(file.path) + '.json';
+  cb(require(jsonPath));
+};
+
+gulp.task('json-test', function() {
+  return gulp.src('./examples/test1.html')
+    .pipe(data(getJsonData))
+    .pipe(jade())
+    .pipe(gulp.dest('build'));
+});
+```
+
+Since gulp-data provides a callback, it means you can get data from a database query as well:
+
+```
+var getMongoData = function(file, cb) {
+  MongoClient.connect('mongodb://127.0.0.1:27017/gulp-data-test', function(err, db) {
+    var collection = db.collection('file-data-test');
+    collection.findOne({filename: path.basename(file.path)}, function(err, doc) {
+      db.close();
+      cb(doc);
+    });
+  });
+};
+
+gulp.task('db-test', function() {
+  return gulp.src('./examples/test3.html')
+    .pipe(data(getMongoData))
+    .pipe(jade())
+    .pipe(gulp.dest('build'));
+});
+````
+
+More info on [gulp-data](https://www.npmjs.org/package/gulp-data)
+
 ## LICENSE
 
 (MIT License)
