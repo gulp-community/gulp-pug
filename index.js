@@ -34,20 +34,17 @@ module.exports = function(options){
     file.path = handleExtension(file.path, opts);
 
     if(file.isStream()){
-      this.emit('error', new PluginError('gulp-jade', 'Streaming not supported'));
-      return cb();
+      return cb(new PluginError('gulp-jade', 'Streaming not supported'));
     }
 
     if(file.isBuffer()){
       try {
         file.contents = new Buffer(handleCompile(String(file.contents), opts));
       } catch(e) {
-        this.emit('error', e);
+        return cb(new PluginError('gulp-jade', e));
       }
     }
-
-    this.push(file);
-    cb();
+    cb(null, file);
   }
 
   return through.obj(CompileJade);
