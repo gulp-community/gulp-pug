@@ -14,11 +14,15 @@ function handleCompile(contents, opts){
   return compile(contents, opts)(opts.locals || opts.data);
 }
 
-function handleExtension(filepath, opts){
+function handleClient(filepath, opts){
   if(opts.client){
     return ext(filepath, '.js');
   }
   return ext(filepath, '.html');
+}
+
+function handleExtension(filepath, opts){
+  return ext(filepath, opts.ext);
 }
 
 module.exports = function(options){
@@ -31,7 +35,11 @@ module.exports = function(options){
       opts.data = file.data;
     }
 
-    file.path = handleExtension(file.path, opts);
+    file.path = handleClient(file.path, opts);
+
+    if(opts.ext){
+      file.path = handleExtension(file.path, opts);
+    }
 
     if(file.isStream()){
       return cb(new PluginError('gulp-jade', 'Streaming not supported'));
