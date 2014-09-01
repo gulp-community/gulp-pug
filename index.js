@@ -25,7 +25,7 @@ module.exports = function(options){
   var opts = options || {};
 
   function CompileJade(file, enc, cb){
-    opts.filename = file.path;
+    opts.filename = opts.filename || file.path;
 
     if (file.data) {
       opts.data = file.data;
