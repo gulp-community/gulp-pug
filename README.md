@@ -52,6 +52,8 @@ gulp.task('templates', function() {
 
 All options supported by the [Jade API](http://jade-lang.com/api/) are supported
 
+__Note:__ `filename` option is taken from `path` property of incoming vinyl-file object. If you want to change it, use [gulp-rename](https://github.com/hparra/gulp-rename) before `gulp-jade` with desired path.
+
 In addition, you can pass in a `locals` or `data` option that will be used as locals for your HTML compilation.  The `locals` option takes precedence over the `data` option.
 
 ## AMD
