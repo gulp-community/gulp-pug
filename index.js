@@ -40,6 +40,7 @@ module.exports = function(options){
     if(file.isBuffer()){
       try {
         file.contents = new Buffer(handleCompile(String(file.contents), opts));
+        opts.suffix && file.contents += opts.suffix;
       } catch(e) {
         return cb(new PluginError('gulp-jade', e));
       }
