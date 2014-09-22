@@ -4,6 +4,7 @@ var through = require('through2');
 var compile = require('jade').compile;
 var compileClient = require('jade').compileClient;
 var ext = require('gulp-util').replaceExtension;
+var jade = require('jade');
 var PluginError = require('gulp-util').PluginError;
 
 function handleCompile(contents, opts){
@@ -49,3 +50,5 @@ module.exports = function(options){
 
   return through.obj(CompileJade);
 };
+
+module.exports.jade = jade;
