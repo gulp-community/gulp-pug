@@ -22,6 +22,11 @@
   "scripts": {
     "test": "gulp jshint && tap ./test"
   },
+   "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
   "devDependencies": {
     "gulp": "~3.4.0",
     "tap": "~0.4.6",
