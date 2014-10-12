@@ -1,6 +1,6 @@
 {
   "name": "gulp-jade",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Compile Jade templates",
   "keywords": [
     "jade",
@@ -22,7 +22,7 @@
   "scripts": {
     "test": "gulp jshint && tap ./test"
   },
-   "licenses": [
+  "licenses": [
     {
       "type": "MIT"
     }
