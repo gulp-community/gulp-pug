@@ -1,8 +1,9 @@
 'use strict';
 
 var through = require('through2');
-var compile = require('jade').compile;
-var compileClient = require('jade').compileClient;
+var jade = require('jade');
+var compile = jade.compile;
+var compileClient = jade.compileClient;
 var ext = require('gulp-util').replaceExtension;
 var PluginError = require('gulp-util').PluginError;
 
@@ -21,7 +22,7 @@ function handleExtension(filepath, opts){
   return ext(filepath, '.html');
 }
 
-module.exports = function(options){
+function gulpJade(options){
   var opts = options || {};
 
   function CompileJade(file, enc, cb){
@@ -49,3 +50,6 @@ module.exports = function(options){
 
   return through.obj(CompileJade);
 };
+
+gulpJade.jade = jade;
+module.exports = gulpJade;
