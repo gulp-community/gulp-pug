@@ -56,6 +56,28 @@ __Note:__ `filename` option is taken from `path` property of incoming vinyl-file
 
 In addition, you can pass in a `locals` or `data` option that will be used as locals for your HTML compilation.  The `locals` option takes precedence over the `data` option.
 
+If you want to use a different version of jade, or define jade filters, you can pass your own instance of jade as the `jade` option:
+
+```javascript
+var jade = require('jade');
+var gulpJade = require('gulp-jade');
+var katex = require('katex');
+
+jade.filters.katex = katex.renderToString;
+jade.filters.shoutFilter = function (str) {
+  return str + '!!!!';
+}
+
+gulp.task('jade', function () {
+  return gulp.src('public/**/*.jade')
+    .pipe(gulpJade({
+      jade: jade,
+      pretty: true
+    }))
+    .pipe(gulp.dest('public/'))
+})
+```
+
 ## AMD
 
 If you are trying to wrap your Jade template functions in an AMD wrapper, use [`gulp-wrap-amd`](https://github.com/phated/gulp-wrap-amd)
