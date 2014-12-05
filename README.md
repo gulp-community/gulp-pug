@@ -107,7 +107,7 @@ Retrieve data from a JSON file, keyed on file name:
 
 ```javascript
 gulp.task('json-test', function() {
-  return gulp.src('./examples/test1.html')
+  return gulp.src('./examples/test1.jade')
     .pipe(data(function(file) {
       return require('./examples/' + path.basename(file.path) + '.json');
     }))
@@ -120,7 +120,7 @@ Since gulp-data provides a callback, it means you can get data from a database q
 
 ```javascript
 gulp.task('db-test', function() {
-  return gulp.src('./examples/test3.html')
+  return gulp.src('./examples/test3.jade')
     .pipe(data(function(file, cb) {
       MongoClient.connect('mongodb://127.0.0.1:27017/gulp-data-test', function(err, db) {
         if(err) return cb(err);
