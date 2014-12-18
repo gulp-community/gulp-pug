@@ -50,7 +50,6 @@ module.exports = function(options){
       } catch(e) {
         if (opts.logErrors === true) {
           log('Jade error %s', e);
-          return cb();
         } else {
           return cb(new PluginError('gulp-jade', e));
         }
