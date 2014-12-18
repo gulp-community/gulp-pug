@@ -78,6 +78,9 @@ gulp.task('jade', function () {
 })
 ```
 
+`logErrors` option, when is `true` then if a compilation error happens, it is only showed in the console, hence is not reported to `gulp` through a callback.
+It is useful because sometimes you don't want to return the error to avoid to break `gulp` process and only want to see it in the console, e.g. When you are developing and you want to `watch` changes on jade files but you don't want to abort the process if you write a incorrect `jade` syntax.
+
 ## AMD
 
 If you are trying to wrap your Jade template functions in an AMD wrapper, use [`gulp-wrap-amd`](https://github.com/phated/gulp-wrap-amd)
