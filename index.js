@@ -1,9 +1,12 @@
 'use strict';
 
+
 var jade = require('jade');
 var extend = require('xtend');
 var through = require('through2');
-var ext = require('gulp-util').replaceExtension;
+var gutil = require('gulp-util');
+var ext = gutil.replaceExtension;
+var log = gutil.log;
 var PluginError = require('gulp-util').PluginError;
 
 function handleCompile(contents, opts){
@@ -45,7 +48,11 @@ module.exports = function(options){
       try {
         file.contents = new Buffer(handleCompile(String(file.contents), opts));
       } catch(e) {
-        return cb(new PluginError('gulp-jade', e));
+        if (opts.logErrors === true) {
+          log('Jade error %s', e);
+        } else {
+          return cb(new PluginError('gulp-jade', e));
+        }
       }
     }
     cb(null, file);
