@@ -54,7 +54,7 @@ All options supported by the [Jade API](http://jade-lang.com/api/) are supported
 
 __Note:__ `filename` option is taken from `path` property of incoming vinyl-file object. If you want to change it, use [gulp-rename](https://github.com/hparra/gulp-rename) before `gulp-jade` with desired path.
 
-In addition, you can pass in a `locals` or `data` option that will be used as locals for your HTML compilation.  The `locals` option takes precedence over the `data` option.
+In addition, you can pass in a `locals` or `data` option that will be used as locals for your HTML compilation.  The `locals` option takes precedence over the `data` option, and both are overwritten by `data` on the vinyl file object (See "Use with `gulp-data`" below).
 
 If you want to use a different version of jade, or define jade filters, you can pass your own instance of jade as the `jade` option:
 
@@ -78,30 +78,9 @@ gulp.task('jade', function () {
 })
 ```
 
-## AMD
-
-If you are trying to wrap your Jade template functions in an AMD wrapper, use [`gulp-wrap-amd`](https://github.com/phated/gulp-wrap-amd)
-
-```javascript
-var jade = require('gulp-jade');
-var wrap = require('gulp-wrap-amd');
-
-gulp.task('templates', function() {
-  gulp.src('./lib/*.jade')
-    .pipe(jade({
-      client: true
-    }))
-    .pipe(wrap({
-      deps: ['jade'],
-      params: ['jade']
-    }))
-    .pipe(gulp.dest('./dist/'))
-});
-```
-
 ## Use with [gulp-data](https://www.npmjs.org/package/gulp-data)
 
-As an alternative, the `gulp-data` plugin, is a standard method for piping data down-stream to other plugins that need data in the form of a new file property `file.data`. If you have data from a JSON file, front-matter, a database, or anything really, use `gulp-data` to pass that data to gulp-jade.
+The `gulp-data` plugin, is a standard method for piping data down-stream to other plugins that need data in the form of a new file property `file.data`. If you have data from a JSON file, front-matter, a database, or anything really, use `gulp-data` to pass that data to gulp-jade.
 
 Retrieve data from a JSON file, keyed on file name:
 
@@ -134,6 +113,26 @@ gulp.task('db-test', function() {
 
 More info on [gulp-data](https://www.npmjs.org/package/gulp-data)
 
+## AMD
+
+If you are trying to wrap your Jade template functions in an AMD wrapper, use [`gulp-wrap-amd`](https://github.com/phated/gulp-wrap-amd)
+
+```javascript
+var jade = require('gulp-jade');
+var wrap = require('gulp-wrap-amd');
+
+gulp.task('templates', function() {
+  gulp.src('./lib/*.jade')
+    .pipe(jade({
+      client: true
+    }))
+    .pipe(wrap({
+      deps: ['jade'],
+      params: ['jade']
+    }))
+    .pipe(gulp.dest('./dist/'))
+});
+```
 ## LICENSE
 
 (MIT License)

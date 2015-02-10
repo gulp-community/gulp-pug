@@ -13,8 +13,7 @@
   "dependencies": {
     "gulp-util": "^3.0.2",
     "jade": "1.1 - 1.9",
-    "through2": "^0.6.3",
-    "xtend": "^4.0.0"
+    "through2": "^0.6.3"
   },
   "files": [
     "index.js",

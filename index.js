@@ -1,32 +1,12 @@
 'use strict';
 
-var jade = require('jade');
-var extend = require('xtend');
 var through = require('through2');
 var ext = require('gulp-util').replaceExtension;
 var PluginError = require('gulp-util').PluginError;
 
-function handleCompile(contents, opts){
-  if(opts.client){
-    return opts.compileClient(contents, opts);
-  }
-
-  return opts.compile(contents, opts)(opts.locals || opts.data);
-}
-
-function handleExtension(filepath, opts){
-  if(opts.client){
-    return ext(filepath, '.js');
-  }
-  return ext(filepath, '.html');
-}
-
-module.exports = function(options){
-  options = options || {};
-  var opts = extend(options, {
-    compile: (options.jade || jade).compile,
-    compileClient: (options.jade || jade).compileClient
-  });
+module.exports = function(opts){
+  opts = opts || {};
+  var jade = opts.jade || require('jade');
 
   function CompileJade(file, enc, cb){
     opts.filename = file.path;
@@ -35,7 +15,7 @@ module.exports = function(options){
       opts.data = file.data;
     }
 
-    file.path = handleExtension(file.path, opts);
+    file.path = ext(file.path, opts.client ? '.js' : '.html');
 
     if(file.isStream()){
       return cb(new PluginError('gulp-jade', 'Streaming not supported'));
@@ -43,7 +23,14 @@ module.exports = function(options){
 
     if(file.isBuffer()){
       try {
-        file.contents = new Buffer(handleCompile(String(file.contents), opts));
+        var compiled;
+        var contents = String(file.contents);
+        if (opts.client) {
+          compiled = jade.compileClient(contents, opts);
+        } else {
+          compiled = jade.compile(contents, opts)(opts.locals || opts.data);
+        }
+        file.contents = new Buffer(compiled);
       } catch(e) {
         return cb(new PluginError('gulp-jade', e));
       }
