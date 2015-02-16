@@ -111,6 +111,29 @@ gulp.task('db-test', function() {
 });
 ```
 
+If you want to use some static locals and some dynamic using gulp-data, the static locals will be overridden.
+Instead, you can extend in the gulp-data function:
+
+```javascript
+var _ = require('lodash');
+
+var statics = {
+  my: 'statics',
+  foo: 'bar'
+};
+
+gulp.task('json-test', function() {
+  return gulp.src('./examples/test1.jade')
+    .pipe(data(function(file) {
+      var json = require('./examples/' + path.basename(file.path) + '.json');
+      var data = _.assign({}, json, statics);
+      return data;
+    }))
+    .pipe(jade())
+    .pipe(gulp.dest('build'));
+});
+```
+
 More info on [gulp-data](https://www.npmjs.org/package/gulp-data)
 
 ## AMD
