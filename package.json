@@ -1,6 +1,6 @@
 {
   "name": "gulp-jade",
-  "version": "0.11.0",
+  "version": "1.0.0",
   "description": "Compile Jade templates",
   "keywords": [
     "jade",
