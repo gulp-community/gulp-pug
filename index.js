@@ -13,6 +13,8 @@ module.exports = function(options){
 
   function CompileJade(file, enc, cb){
     opts.filename = file.path;
+    if (opts.templateUseFilename)
+      opts.name = /(.*)(\..+)/.exec(file.relative)[1].toString();
 
     if(file.data){
       opts.data = file.data;
