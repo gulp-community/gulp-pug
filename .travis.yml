@@ -13,4 +13,6 @@ env:
   - JADE=jade@~1.7
   - JADE=jade@~1.8
   - JADE=jade@~1.9
+  - JADE=jade@~1.10
+  - JADE=jade@~1.11
 before_script: npm install $JADE # install a specific version of jade
