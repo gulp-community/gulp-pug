@@ -16,7 +16,7 @@ module.exports = function(options){
 
     if (opts.client)
     {
-      var templateFuncName = 'render_template_' + file.relative.replace(/\//g, '_').replace(/\\/g, '_').replace('.jade', '');
+      var templateFuncName = 'render_template_' + file.relative.replace(/[\/\\\-]/g, '_').replace(/[\.](jade|js)/g, '');
       templateFuncName = templateFuncName.replace(/(_)([a-zA-Z0-9])([a-zA-Z0-9-\\\/]+)/g, function (a, b, c, d) {
         return c.toUpperCase() + d;
       });

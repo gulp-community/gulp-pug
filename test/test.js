@@ -32,7 +32,7 @@ function expectStream(t, options){
     options.filename = filename;
       if (options.client)
       {
-        var templateFuncName = 'render_template_' + file.relative.replace(/\//g, '_').replace(/\\/g, '_').replace('.js', '');
+        var templateFuncName = 'render_template_' + file.relative.replace(/[\/\\\-]/g, '_').replace(/[\.](jade|js)/g, '');
         templateFuncName = templateFuncName.replace(/(_)([a-zA-Z0-9])([a-zA-Z0-9-\\\/]+)/g, function (a, b, c, d) {
           return c.toUpperCase() + d;
         });
