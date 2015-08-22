@@ -14,17 +14,12 @@ module.exports = function(options){
   function CompileJade(file, enc, cb){
     opts.filename = file.path;
 
-    if (opts.client) // only for client
+    if (opts.client)
     {
-      // changing file.path to something like render_template_index
       var templateFuncName = 'render_template_' + file.relative.replace(/\//g, '_').replace(/\\/g, '_').replace('.jade', '');
-
-      // changing templateFuncName to camelCase
       templateFuncName = templateFuncName.replace(/(_)([a-zA-Z0-9])([a-zA-Z0-9-\\\/]+)/g, function (a, b, c, d) {
         return c.toUpperCase() + d;
       });
-
-      // jade supports changing function name in compiled templates;
       opts.name = templateFuncName;
     }
 

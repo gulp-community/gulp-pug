@@ -30,6 +30,14 @@ function expectStream(t, options){
   var compiler = options.client ? jade.compileClient : jade.compile;
   return through.obj(function(file, enc, cb){
     options.filename = filename;
+      if (options.client)
+      {
+        var templateFuncName = 'render_template_' + file.relative.replace(/\//g, '_').replace(/\\/g, '_').replace('.js', '');
+        templateFuncName = templateFuncName.replace(/(_)([a-zA-Z0-9])([a-zA-Z0-9-\\\/]+)/g, function (a, b, c, d) {
+          return c.toUpperCase() + d;
+        });
+        options.name = templateFuncName;
+      }
     var compiled = compiler(fs.readFileSync(filename), options);
     var expected = options.client ? compiled : compiled(options.data || options.locals);
     t.equal(expected, String(file.contents));
