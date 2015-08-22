@@ -14,6 +14,15 @@ module.exports = function(options){
   function CompileJade(file, enc, cb){
     opts.filename = file.path;
 
+    if (opts.client)
+    {
+      var templateFuncName = 'render_template_' + file.relative.replace(/[\/\\\-]/g, '_').replace(/[\.](jade|js)/g, '');
+      templateFuncName = templateFuncName.replace(/(_)([a-zA-Z0-9])([a-zA-Z0-9-\\\/]+)/g, function (a, b, c, d) {
+        return c.toUpperCase() + d;
+      });
+      opts.name = templateFuncName;
+    }
+
     if(file.data){
       opts.data = file.data;
     }
