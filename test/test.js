@@ -120,3 +120,17 @@ test('should always return contents as buffer with client = false', function(t){
       cb();
     }));
 });
+
+test('should compile my jade files into JS with specific template name', function(t) {
+  gulp.src(filename)
+    .pipe(task({
+      client: true,
+      callbackName: function(filepath) {
+        return path.basename(filepath).replace('.js', '');
+      }
+    }))
+    .pipe(expectStream(t, {
+      client: true,
+      name: 'helloworld'
+    }));  
+});

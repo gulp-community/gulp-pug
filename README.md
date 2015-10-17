@@ -48,6 +48,24 @@ gulp.task('templates', function() {
 });
 ```
 
+Compile to JS using another function name
+
+```javascript
+var path = require('path');
+var jade = require('gulp-jade');
+
+gulp.task('templates', function() {
+  gulp.src('./lib/*.jade')
+    .pipe(jade({
+      client: true,
+      callbackName: function (filepath) {
+        return 'Template' + path.basename(filepath).replace('.js', '');
+      }
+    }))
+    .pipe(gulp.dest('./dist/'))
+});
+```
+
 ## Options
 
 All options supported by the [Jade API](http://jade-lang.com/api/) are supported

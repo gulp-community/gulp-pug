@@ -28,7 +28,10 @@ module.exports = function(options){
       try {
         var compiled;
         var contents = String(file.contents);
-        if(opts.client){
+        if(opts.client) {
+          if (opts.callbackName) {
+            opts.name = opts.callbackName(file.path);
+          }
           compiled = jade.compileClient(contents, opts);
         } else {
           compiled = jade.compile(contents, opts)(opts.locals || opts.data);
