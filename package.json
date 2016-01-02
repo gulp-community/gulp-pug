@@ -13,7 +13,9 @@
   "dependencies": {
     "gulp-util": "^3.0.2",
     "jade": "1.1 - 1.11",
-    "through2": "^2.0.0"
+    "through2": "^2.0.0",
+    "path" : "^0.12.7",
+    "rename": "^1.0.3"
   },
   "files": [
     "index.js",

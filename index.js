@@ -1,45 +1,80 @@
 'use strict';
 
-var extend = require('util')._extend;
+const through = require('through2');
+const defaultJade = require('jade');
+const ext = require('gulp-util').replaceExtension;
+const PluginError = require('gulp-util').PluginError;
+const path = require('path');
 
-var through = require('through2');
-var defaultJade = require('jade');
-var ext = require('gulp-util').replaceExtension;
-var PluginError = require('gulp-util').PluginError;
 
-module.exports = function(options){
-  var opts = extend({}, options);
-  var jade = opts.jade || defaultJade;
+function setPathName(_path, name) {
+  var parsed = path.parse(_path);
+  parsed.base = name;
+  return path.format( parsed );
+}
+function getPathName(_path) {
+  return path.parse(_path).base;
+}
 
-  function CompileJade(file, enc, cb){
-    opts.filename = file.path;
+module.exports = function (options) {
+  options = options || {};
+  var jade = options.jade || defaultJade;
+  var pages = options.pages || {};
 
-    if(file.data){
-      opts.data = file.data;
+  return through.obj(function (file, enc, cb) {
+    if (file.isNull()) {
+      return cb(null, file);
     }
-
-    file.path = ext(file.path, opts.client ? '.js' : '.html');
-
-    if(file.isStream()){
+    if (file.isStream()) {
       return cb(new PluginError('gulp-jade', 'Streaming not supported'));
     }
 
-    if(file.isBuffer()){
+    if (file.isBuffer()) {
+      options.filename = file.path;
+      file.path = ext(file.path, options.client ? '.js' : '.html');
+      var data = file.data || options.locals || options.data;
+
       try {
-        var compiled;
-        var contents = String(file.contents);
-        if(opts.client){
-          compiled = jade.compileClient(contents, opts);
+        if (options.client) {
+          compileClient(this, file);
         } else {
-          compiled = jade.compile(contents, opts)(opts.locals || opts.data);
+          compile(this, file, data);
         }
-        file.contents = new Buffer(compiled);
-      } catch(e) {
+      } catch (e) {
         return cb(new PluginError('gulp-jade', e));
       }
+
+      cb();
     }
-    cb(null, file);
+  });
+
+  function compileClient(stream, file) {
+    var compiled = jade.compileClient(String(file.contents), options);
+    file.contents = new Buffer(compiled);
+    stream.push( file );
   }
 
-  return through.obj(CompileJade);
+  function compile(stream, file, data) {
+    var _pages = pages[getPathName(file.path)];
+    var tpl = jade.compile(String(file.contents), options);
+
+    if (_pages === undefined) {
+      compileTemplate(tpl, data, file);
+    } else {
+      _pages.forEach((page, i) => {
+        var pageFile = file.clone();
+        pageFile.path = setPathName(pageFile.path, page);
+        compileTemplate(tpl, data, pageFile, i);
+      });
+    }
+
+    function compileTemplate(tpl, data, file, pageNum) {
+      data._file = file;
+      data._pageNum = pageNum;
+      file.contents = new Buffer(tpl(data));
+      stream.push(file);
+    }
+
+  }
+
 };
