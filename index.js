@@ -46,12 +46,12 @@ module.exports = function (options) {
     function compile(file, data) {
         var template = jade.compile(String(file.contents), options);
         var render = options.render || defaultRender;
-        render.call(this, file, template, data);
+        render.call(this, template, data, file);
     }
 
 }
 
-function defaultRender(file, template, data) {
+function defaultRender(template, data, file) {
     file.contents = new Buffer(template(data));
     this.push(file);
 }
