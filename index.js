@@ -1,45 +1,57 @@
 'use strict';
 
-var extend = require('util')._extend;
+const through = require('through2');
+const ext = require('gulp-util').replaceExtension;
+const PluginError = require('gulp-util').PluginError;
+const defaultJade = require('jade');
 
-var through = require('through2');
-var defaultJade = require('jade');
-var ext = require('gulp-util').replaceExtension;
-var PluginError = require('gulp-util').PluginError;
 
-module.exports = function(options){
-  var opts = extend({}, options);
-  var jade = opts.jade || defaultJade;
+module.exports = function (options) {
+    options = options || {};
+    var jade = options.jade || defaultJade;
 
-  function CompileJade(file, enc, cb){
-    opts.filename = file.path;
-
-    if(file.data){
-      opts.data = file.data;
-    }
-
-    file.path = ext(file.path, opts.client ? '.js' : '.html');
-
-    if(file.isStream()){
-      return cb(new PluginError('gulp-jade', 'Streaming not supported'));
-    }
-
-    if(file.isBuffer()){
-      try {
-        var compiled;
-        var contents = String(file.contents);
-        if(opts.client){
-          compiled = jade.compileClient(contents, opts);
-        } else {
-          compiled = jade.compile(contents, opts)(opts.locals || opts.data);
+    return through.obj(function (file, enc, cb) {
+        if (file.isNull()) {
+            return cb(null, file);
         }
-        file.contents = new Buffer(compiled);
-      } catch(e) {
-        return cb(new PluginError('gulp-jade', e));
-      }
-    }
-    cb(null, file);
-  }
+        if (file.isStream()) {
+            return cb(new PluginError('gulp-jade', 'Streaming not supported'));
+        }
 
-  return through.obj(CompileJade);
-};
+        if (file.isBuffer()) {
+            options.filename = file.path;
+            file.path = ext(file.path, options.client ? '.js' : '.html');
+
+            try {
+                if (options.client) {
+                    compileClient.call(this, file);
+                } else {
+                    var data = file.data || options.locals || options.data;
+                    compile.call(this, file, data);
+                }
+            } catch (e) {
+                return cb(new PluginError('gulp-jade', e));
+            }
+
+            cb();
+        }
+    });
+
+    function compileClient(file) {
+        var template = jade.compileClient(String(file.contents), options);
+        file.contents = new Buffer(template);
+        this.push(file);
+    }
+
+    function compile(file, data) {
+        var template = jade.compile(String(file.contents), options);
+        var render = options.render || defaultRender;
+        render.call(this, template, data, file);
+    }
+
+}
+
+function defaultRender(template, data, file) {
+    file.contents = new Buffer(template(data));
+    this.push(file);
+}
