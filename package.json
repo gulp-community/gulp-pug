@@ -1,9 +1,9 @@
 {
-  "name": "gulp-jade",
+  "name": "gulp-pug",
   "version": "1.1.0",
-  "description": "Compile Jade templates",
+  "description": "Compile Pug templates",
   "keywords": [
-    "jade",
+    "pug",
     "gulpplugin",
     "stream",
     "compile"
@@ -12,7 +12,7 @@
   "author": "Blaine Bublitz <blaine@iceddev.com>",
   "dependencies": {
     "gulp-util": "^3.0.2",
-    "jade": "1.1 - 1.11",
+    "pug": "1.1 - 1.11",
     "through2": "^2.0.0"
   },
   "files": [
@@ -27,7 +27,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "gulp": "^3.8.10",
+    "pug": "^3.8.10",
     "tap": "^1.3.1",
     "gulp-jshint": "^1.9.0"
   }

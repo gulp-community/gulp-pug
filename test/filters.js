@@ -6,9 +6,9 @@ var task = require('../');
 var path = require('path');
 var fs = require('fs');
 var gutil = require('gulp-util');
-var jade = require('jade');
+var pug = require('pug');
 
-jade.filters.shout = function(str){
+pug.filters.shout = function(str){
   return str.toUpperCase() + '!!!!';
 };
 
@@ -23,7 +23,7 @@ var file = new gutil.File({
   contents: fs.readFileSync(filePath)
 });
 
-test('should compile a jade template with a custom jade instance with filters', function(t){
+test('should compile a pug template with a custom pug instance with filters', function(t){
   var stream = task();
   stream.on('data', function(newFile){
     t.ok(newFile);

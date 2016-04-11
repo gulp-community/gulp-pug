@@ -1,10 +1,10 @@
-[![Build Status](https://travis-ci.org/phated/gulp-jade.png?branch=master)](https://travis-ci.org/phated/gulp-jade)
+[![Build Status](https://travis-ci.org/phated/pug-jade.png?branch=master)](https://travis-ci.org/phated/pug-jade)
 
 ## Information
 
 <table>
 <tr>
-<td>Package</td><td>gulp-jade</td>
+<td>Package</td><td>pug-jade</td>
 </tr>
 <tr>
 <td>Description</td>
@@ -21,30 +21,30 @@
 Compile to HTML
 
 ```javascript
-var jade = require('gulp-jade');
+var jade = require('pug-jade');
 
-gulp.task('templates', function() {
+pug.task('templates', function() {
   var YOUR_LOCALS = {};
 
-  gulp.src('./lib/*.jade')
+  pug.src('./lib/*.jade')
     .pipe(jade({
       locals: YOUR_LOCALS
     }))
-    .pipe(gulp.dest('./dist/'))
+    .pipe(pug.dest('./dist/'))
 });
 ```
 
 Compile to JS
 
 ```javascript
-var jade = require('gulp-jade');
+var jade = require('pug-jade');
 
-gulp.task('templates', function() {
-  gulp.src('./lib/*.jade')
+pug.task('templates', function() {
+  pug.src('./lib/*.jade')
     .pipe(jade({
       client: true
     }))
-    .pipe(gulp.dest('./dist/'))
+    .pipe(pug.dest('./dist/'))
 });
 ```
 
@@ -52,15 +52,15 @@ gulp.task('templates', function() {
 
 All options supported by the [Jade API](http://jade-lang.com/api/) are supported
 
-__Note:__ `filename` option is taken from `path` property of incoming vinyl-file object. If you want to change it, use [gulp-rename](https://github.com/hparra/gulp-rename) before `gulp-jade` with desired path.
+__Note:__ `filename` option is taken from `path` property of incoming vinyl-file object. If you want to change it, use [pug-rename](https://github.com/hparra/pug-rename) before `pug-jade` with desired path.
 
-In addition, you can pass in a `locals` or `data` option that will be used as locals for your HTML compilation.  The `locals` option takes precedence over the `data` option, and both are overwritten by `data` on the vinyl file object (See "Use with `gulp-data`" below).
+In addition, you can pass in a `locals` or `data` option that will be used as locals for your HTML compilation.  The `locals` option takes precedence over the `data` option, and both are overwritten by `data` on the vinyl file object (See "Use with `pug-data`" below).
 
 If you want to use a different version of jade, or define jade filters, you can pass your own instance of jade as the `jade` option:
 
 ```javascript
 var jade = require('jade');
-var gulpJade = require('gulp-jade');
+var pugJade = require('pug-jade');
 var katex = require('katex');
 
 jade.filters.katex = katex.renderToString;
@@ -68,51 +68,51 @@ jade.filters.shoutFilter = function (str) {
   return str + '!!!!';
 }
 
-gulp.task('jade', function () {
-  return gulp.src('public/**/*.jade')
-    .pipe(gulpJade({
+pug.task('jade', function () {
+  return pug.src('public/**/*.jade')
+    .pipe(pugJade({
       jade: jade,
       pretty: true
     }))
-    .pipe(gulp.dest('public/'))
+    .pipe(pug.dest('public/'))
 })
 ```
 
-## Use with [gulp-data](https://www.npmjs.org/package/gulp-data)
+## Use with [pug-data](https://www.npmjs.org/package/pug-data)
 
-The `gulp-data` plugin, is a standard method for piping data down-stream to other plugins that need data in the form of a new file property `file.data`. If you have data from a JSON file, front-matter, a database, or anything really, use `gulp-data` to pass that data to gulp-jade.
+The `pug-data` plugin, is a standard method for piping data down-stream to other plugins that need data in the form of a new file property `file.data`. If you have data from a JSON file, front-matter, a database, or anything really, use `pug-data` to pass that data to pug-jade.
 
 Retrieve data from a JSON file, keyed on file name:
 
 ```javascript
-gulp.task('json-test', function() {
-  return gulp.src('./examples/test1.jade')
+pug.task('json-test', function() {
+  return pug.src('./examples/test1.jade')
     .pipe(data(function(file) {
       return require('./examples/' + path.basename(file.path) + '.json');
     }))
     .pipe(jade())
-    .pipe(gulp.dest('build'));
+    .pipe(pug.dest('build'));
 });
 ```
 
-Since gulp-data provides a callback, it means you can get data from a database query as well:
+Since pug-data provides a callback, it means you can get data from a database query as well:
 
 ```javascript
-gulp.task('db-test', function() {
-  return gulp.src('./examples/test3.jade')
+pug.task('db-test', function() {
+  return pug.src('./examples/test3.jade')
     .pipe(data(function(file, cb) {
-      MongoClient.connect('mongodb://127.0.0.1:27017/gulp-data-test', function(err, db) {
+      MongoClient.connect('mongodb://127.0.0.1:27017/pug-data-test', function(err, db) {
         if(err) return cb(err);
         cb(undefined, db.collection('file-data-test').findOne({filename: path.basename(file.path)}));
       });
     }))
     .pipe(jade())
-    .pipe(gulp.dest('build'));
+    .pipe(pug.dest('build'));
 });
 ```
 
-If you want to use some static locals and some dynamic using gulp-data, the static locals will be overridden.
-Instead, you can extend in the gulp-data function:
+If you want to use some static locals and some dynamic using pug-data, the static locals will be overridden.
+Instead, you can extend in the pug-data function:
 
 ```javascript
 var _ = require('lodash');
@@ -122,30 +122,30 @@ var statics = {
   foo: 'bar'
 };
 
-gulp.task('json-test', function() {
-  return gulp.src('./examples/test1.jade')
+pug.task('json-test', function() {
+  return pug.src('./examples/test1.jade')
     .pipe(data(function(file) {
       var json = require('./examples/' + path.basename(file.path) + '.json');
       var data = _.assign({}, json, statics);
       return data;
     }))
     .pipe(jade())
-    .pipe(gulp.dest('build'));
+    .pipe(pug.dest('build'));
 });
 ```
 
-More info on [gulp-data](https://www.npmjs.org/package/gulp-data)
+More info on [pug-data](https://www.npmjs.org/package/pug-data)
 
 ## AMD
 
-If you are trying to wrap your Jade template functions in an AMD wrapper, use [`gulp-wrap-amd`](https://github.com/phated/gulp-wrap-amd)
+If you are trying to wrap your Jade template functions in an AMD wrapper, use [`pug-wrap-amd`](https://github.com/phated/pug-wrap-amd)
 
 ```javascript
-var jade = require('gulp-jade');
-var wrap = require('gulp-wrap-amd');
+var jade = require('pug-jade');
+var wrap = require('pug-wrap-amd');
 
-gulp.task('templates', function() {
-  gulp.src('./lib/*.jade')
+pug.task('templates', function() {
+  pug.src('./lib/*.jade')
     .pipe(jade({
       client: true
     }))
@@ -153,7 +153,7 @@ gulp.task('templates', function() {
       deps: ['jade'],
       params: ['jade']
     }))
-    .pipe(gulp.dest('./dist/'))
+    .pipe(pug.dest('./dist/'))
 });
 ```
 ## LICENSE

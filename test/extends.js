@@ -18,7 +18,7 @@ var file = new gutil.File({
   contents: fs.readFileSync(filePath)
 });
 
-test('should compile a jade template with an extends', function(t){
+test('should compile a pug template with an extends', function(t){
   var stream = task();
   stream.on('data', function(newFile){
     t.ok(newFile);
