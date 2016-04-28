@@ -9,7 +9,7 @@ var fs = require('fs');
 var File = require('gulp-util').File;
 var PluginError = require('gulp-util').PluginError;
 
-var filePath = path.join(__dirname, 'fixtures', 'helloworld.jade');
+var filePath = path.join(__dirname, 'fixtures', 'helloworld.pug');
 var base = path.join(__dirname, 'fixtures');
 var cwd = __dirname;
 
