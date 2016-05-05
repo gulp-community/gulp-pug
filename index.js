@@ -10,7 +10,7 @@ var PluginError = require('gulp-util').PluginError;
 module.exports = function(options){
 
   var opts = extend({}, options);
-  var pug = opts.pug || defaultPug;
+  var pug = opts.pug || opts.jade || defaultPug;
 
   function CompilePug(file, enc, cb){
     opts.filename = file.path;

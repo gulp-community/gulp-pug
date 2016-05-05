@@ -4,6 +4,7 @@
   "description": "Compile Jade templates",
   "keywords": [
     "jade",
+    "pug",
     "gulpplugin",
     "stream",
     "compile"
