@@ -8,7 +8,7 @@
 </tr>
 <tr>
 <td>Description</td>
-<td>Compile Jade templates</td>
+<td>Compile Pug templates</td>
 </tr>
 <tr>
 <td>Node Version</td>
@@ -50,7 +50,7 @@ gulp.task('templates', function() {
 
 ## Options
 
-All options supported by the [Jade API](http://jade-lang.com/api/) are supported
+All options supported by the [Pag API](http://jade-lang.com/api/) are supported
 
 __Note:__ `filename` option is taken from `path` property of incoming vinyl-file object. If you want to change it, use [gulp-rename](https://github.com/hparra/gulp-rename) before `gulp-pug` with desired path.
 
@@ -60,7 +60,7 @@ If you want to use a different version of pug, or define pug filters, you can pa
 
 ```javascript
 var pug = require('pug');
-var gulpJade = require('gulp-pug');
+var gulpPug = require('gulp-pug');
 var katex = require('katex');
 
 pug.filters.katex = katex.renderToString;
@@ -70,7 +70,7 @@ pug.filters.shoutFilter = function (str) {
 
 gulp.task('pug', function () {
   return gulp.src('public/**/*.pug')
-    .pipe(gulpJade({
+    .pipe(gulpPug({
       pug: pug,
       pretty: true
     }))
@@ -138,7 +138,7 @@ More info on [gulp-data](https://www.npmjs.org/package/gulp-data)
 
 ## AMD
 
-If you are trying to wrap your Jade template functions in an AMD wrapper, use [`gulp-wrap-amd`](https://github.com/phated/gulp-wrap-amd)
+If you are trying to wrap your Pug template functions in an AMD wrapper, use [`gulp-wrap-amd`](https://github.com/phated/gulp-wrap-amd)
 
 ```javascript
 var pug = require('gulp-pug');
