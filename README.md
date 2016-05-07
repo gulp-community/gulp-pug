@@ -50,7 +50,7 @@ gulp.task('templates', function() {
 
 ## Options
 
-All options supported by the [Pag API](http://jade-lang.com/api/) are supported
+All options supported by the [Pug API](http://jade-lang.com/api/) are supported
 
 __Note:__ `filename` option is taken from `path` property of incoming vinyl-file object. If you want to change it, use [gulp-rename](https://github.com/hparra/gulp-rename) before `gulp-pug` with desired path.
 
