@@ -9,8 +9,8 @@ node_js:
   - "0.10"
 
 env:
-  - PUG=pug@~0.0,
-  - PUG=pug@~0.1,
+  - PUG=pug@0.1.0,
+  - PUG=pug@2.0.0-alpha6
   - PUG=pug@2.0.0-alpha7
 
 before_script: npm install $PUG
