@@ -1,10 +1,11 @@
 'use strict';
 
 var gulp = require('gulp');
-var jshint = require('gulp-jshint');
+var eslint = require('gulp-eslint');
 
-gulp.task('jshint', function(){
+gulp.task('eslint', function() {
   gulp.src(['**/*.js', '!node_modules/**'])
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter());
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
 });

@@ -20,9 +20,9 @@ var file = new File({
   contents: fs.createReadStream(filePath)
 });
 
-test('should error if contents is a stream', function(t){
+test('should error if contents is a stream', function(t) {
   var stream = task();
-  stream.on('error', function(err){
+  stream.on('error', function(err) {
     t.ok(err instanceof PluginError, 'not an instance of PluginError');
     t.end();
   });

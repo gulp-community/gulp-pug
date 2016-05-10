@@ -1,23 +1,9 @@
-[![Build Status](https://travis-ci.org/phated/gulp-jade.png?branch=master)](https://travis-ci.org/phated/gulp-jade)
+# gulp-pug [![Build Status][status-img]][status]
+> Compile Pug templates
 
-## Information
 
-<table>
-<tr>
-<td>Package</td><td>gulp-pug</td>
-</tr>
-<tr>
-<td>Description</td>
-<td>Compile Pug templates</td>
-</tr>
-<tr>
-<td>Node Version</td>
-<td>≥ 0.10</td>
-</tr>
-</table>
 
 ## Usage
-
 Compile to HTML
 
 ```javascript
@@ -49,7 +35,6 @@ gulp.task('templates', function() {
 ```
 
 ## Options
-
 All options supported by the [Pug API](http://jade-lang.com/api/) are supported
 
 __Note:__ `filename` option is taken from `path` property of incoming vinyl-file object. If you want to change it, use [gulp-rename](https://github.com/hparra/gulp-rename) before `gulp-pug` with desired path.
@@ -79,7 +64,6 @@ gulp.task('pug', function () {
 ```
 
 ## Use with [gulp-data](https://www.npmjs.org/package/gulp-data)
-
 The `gulp-data` plugin, is a standard method for piping data down-stream to other plugins that need data in the form of a new file property `file.data`. If you have data from a JSON file, front-matter, a database, or anything really, use `gulp-data` to pass that data to gulp-pug.
 
 Retrieve data from a JSON file, keyed on file name:
@@ -137,7 +121,6 @@ gulp.task('json-test', function() {
 More info on [gulp-data](https://www.npmjs.org/package/gulp-data)
 
 ## AMD
-
 If you are trying to wrap your Pug template functions in an AMD wrapper, use [`gulp-wrap-amd`](https://github.com/phated/gulp-wrap-amd)
 
 ```javascript
@@ -157,26 +140,8 @@ gulp.task('templates', function() {
 });
 ```
 ## LICENSE
+[MIT][license] &copy; Jamen Marzonie
 
-(MIT License)
-
-Copyright (c) 2013 Blaine Bublitz
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ [status]: https://travis-ci.org/jamen/gulp-pug
+ [status-img]: https://travis-ci.org/jamen/gulp-pug.png?branch=master
+ [license]: LICENSE

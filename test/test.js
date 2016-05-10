@@ -14,7 +14,7 @@ var filename = path.join(__dirname, './fixtures/helloworld.pug');
 
 // Mock Data Plugin
 // (not testing the gulp-data plugin options, just that gulp-pug can get its data from file.data)
-var setData = function(){
+var setData = function setData() {
   return through.obj(function(file, enc, callback) {
     file.data = {
       title: 'Greetings!'
@@ -24,17 +24,18 @@ var setData = function(){
   });
 };
 
-function expectStream(t, options){
+var expectStream = function expectStream(t, options) {
   options = options || {};
   var ext = options.client ? '.js' : '.html';
   var compiler = options.client ? pug.compileClient : pug.compile;
-  return through.obj(function(file, enc, cb){
+  return through.obj(function expectData(file, enc, cb) {
     options.filename = filename;
     var compiled = compiler(fs.readFileSync(filename), options);
-    var expected = options.client ? compiled : compiled(options.data || options.locals);
+    var data = options.data || options.locals;
+    var expected = options.client ? compiled : compiled(data);
     t.equal(expected, String(file.contents));
     t.equal(extname(file.path), ext);
-    if(file.relative){
+    if (file.relative) {
       t.equal(extname(file.relative), ext);
     } else {
       t.equal(extname(file.relative), '');
@@ -42,15 +43,15 @@ function expectStream(t, options){
     t.end();
     cb();
   });
-}
+};
 
-test('should compile my pug files into HTML', function(t){
+test('should compile my pug files into HTML', function(t) {
   gulp.src(filename)
     .pipe(task())
     .pipe(expectStream(t));
 });
 
-test('should compile my pug files into HTML with locals passed in', function(t){
+test('should compile my pug files into HTML with locals', function(t) {
   gulp.src(filename)
     .pipe(task({
       locals: {
@@ -64,7 +65,7 @@ test('should compile my pug files into HTML with locals passed in', function(t){
     }));
 });
 
-test('should compile my pug files into HTML with data passed in', function(t){
+test('should compile my pug files into HTML with data', function(t) {
   gulp.src(filename)
     .pipe(task({
       data: {
@@ -78,7 +79,7 @@ test('should compile my pug files into HTML with data passed in', function(t){
     }));
 });
 
-test('should compile my pug files into HTML with data property', function(t){
+test('should compile my pug files into HTML with data property', function(t) {
   gulp.src(filename)
     .pipe(setData())
     .pipe(task())
@@ -89,7 +90,7 @@ test('should compile my pug files into HTML with data property', function(t){
     }));
 });
 
-test('should compile my pug files into JS', function(t){
+test('should compile my pug files into JS', function(t) {
   gulp.src(filename)
     .pipe(task({
       client: true
@@ -99,22 +100,22 @@ test('should compile my pug files into JS', function(t){
     }));
 });
 
-test('should always return contents as buffer with client = true', function(t){
+test('should always return contents as buffer with client = true', function(t) {
   gulp.src(filename)
     .pipe(task({
       client: true
     }))
-    .pipe(through.obj(function(file, enc, cb){
+    .pipe(through.obj(function(file, enc, cb) {
       t.ok(file.contents instanceof Buffer);
       t.end();
       cb();
     }));
 });
 
-test('should always return contents as buffer with client = false', function(t){
+test('should always return contents as buf with client = false', function(t) {
   gulp.src(filename)
     .pipe(task())
-    .pipe(through.obj(function(file, enc, cb){
+    .pipe(through.obj(function(file, enc, cb) {
       t.ok(file.contents instanceof Buffer);
       t.end();
       cb();
