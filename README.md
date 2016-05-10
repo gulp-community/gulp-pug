@@ -1,9 +1,6 @@
 # gulp-pug [![Build Status][status-img]][status]
 > Compile Pug templates
 
-
-
-## Usage
 Compile to HTML
 
 ```javascript
