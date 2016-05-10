@@ -1,9 +1,10 @@
 {
-  "name": "gulp-jade",
+  "name": "gulp-pug",
   "version": "1.1.0",
   "description": "Compile Jade templates",
   "keywords": [
     "jade",
+    "pug",
     "gulpplugin",
     "stream",
     "compile"
@@ -12,7 +13,7 @@
   "author": "Blaine Bublitz <blaine@iceddev.com>",
   "dependencies": {
     "gulp-util": "^3.0.2",
-    "jade": "1.1 - 1.11",
+    "pug": "^2.0.0-alpha6",
     "through2": "^2.0.0"
   },
   "files": [

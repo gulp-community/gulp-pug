@@ -7,7 +7,7 @@ var path = require('path');
 var fs = require('fs');
 var gutil = require('gulp-util');
 
-var filePath = path.join(__dirname, 'fixtures', 'extends.jade');
+var filePath = path.join(__dirname, 'fixtures', 'extends.pug');
 var base = path.join(__dirname, 'fixtures');
 var cwd = __dirname;
 
@@ -18,7 +18,7 @@ var file = new gutil.File({
   contents: fs.readFileSync(filePath)
 });
 
-test('should compile a jade template with an extends', function(t){
+test('should compile a pug template with an extends', function(t){
   var stream = task();
   stream.on('data', function(newFile){
     t.ok(newFile);
