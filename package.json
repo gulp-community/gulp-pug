@@ -10,7 +10,6 @@
     "compile"
   ],
   "repository": "https://github.com/jamen/gulp-pug.git",
-  "author": "Blaine Bublitz <blaine@iceddev.com>",
   "dependencies": {
     "gulp-util": "^3.0.2",
     "pug": "^2.0.0-alpha6",
