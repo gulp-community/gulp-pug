@@ -1,18 +1,16 @@
 sudo: false
 language: node_js
 node_js:
-  - "0.10"
+  - "6"
+  - "5"
+  - "4"
   - "0.12"
+  - "0.11"
+  - "0.10"
+
 env:
-  - JADE=jade@~1.1
-  - JADE=jade@~1.2
-  - JADE=jade@~1.3
-  - JADE=jade@~1.4
-  - JADE=jade@~1.5
-  - JADE=jade@~1.6
-  - JADE=jade@~1.7
-  - JADE=jade@~1.8
-  - JADE=jade@~1.9
-  - JADE=jade@~1.10
-  - JADE=jade@~1.11
-before_script: npm install $JADE # install a specific version of jade
+  - PUG=pug@~0.0,
+  - PUG=pug@~0.1,
+  - PUG=pug@2.0.0-alpha7
+
+before_script: npm install $PUG
