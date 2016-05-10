@@ -1,7 +1,7 @@
 {
   "name": "gulp-pug",
   "version": "1.1.0",
-  "description": "Compile Jade templates",
+  "description": "Compile Pug templates",
   "keywords": [
     "jade",
     "pug",
@@ -9,8 +9,7 @@
     "stream",
     "compile"
   ],
-  "repository": "https://github.com/phated/gulp-jade.git",
-  "author": "Blaine Bublitz <blaine@iceddev.com>",
+  "repository": "https://github.com/jamen/gulp-pug.git",
   "dependencies": {
     "gulp-util": "^3.0.2",
     "pug": "^2.0.0-alpha6",
@@ -24,12 +23,14 @@
     "node": ">= 0.10"
   },
   "scripts": {
-    "test": "gulp jshint && tap ./test"
+    "test": "gulp eslint && tap ./test"
   },
   "license": "MIT",
   "devDependencies": {
+    "eslint-config-google": "^0.5.0",
+    "eslint-config-xo": "^0.14.1",
     "gulp": "^3.8.10",
-    "tap": "^1.3.1",
-    "gulp-jshint": "^1.9.0"
+    "gulp-eslint": "^2.0.0",
+    "tap": "^1.3.1"
   }
 }
