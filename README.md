@@ -3,7 +3,7 @@
 
 This Gulp plugin enables you to compile your Pug templates into HTML or JS, with support for template locals, custom Pug filters, AMD wrapping, and others.  Here is a simple example using `gulp-pug`:
 ```javascript
-var pug = requrie('gulp-pug');
+var pug = require('gulp-pug');
 
 gulp.task('views', function buildHTML() {
   return gulp.src('views/*.pug')
