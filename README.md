@@ -30,6 +30,9 @@ Returns a stream that compiles Vinyl files as Pug.
  - [`gulp-rename`][gulp-rename]: Change `opts.filename` passed into Pug.
  - [`gulp-wrap-amd`][gulp-wrap-amd]: Wrap your Pug in an AMD wrapper.
 
+## Thanks
+ - Many thanks to [Blaine Bublitz][phated] for the original `gulp-jade` plugin.
+
 ## LICENSE
 [MIT][license] &copy; Jamen Marzonie
 
@@ -42,4 +45,5 @@ Returns a stream that compiles Vinyl files as Pug.
  [gulp-data]: https://npmjs.com/gulp-data
  [gulp-rename]: https://npmjs.com/gulp-rename
  [gulp-wrap-amd]: https://github.com/phated/gulp-wrap-amd
+ [phated]: https://github.com/phated
  [license]: LICENSE
