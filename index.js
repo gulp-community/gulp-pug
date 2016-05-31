@@ -1,13 +1,13 @@
 'use strict';
 
-var extend = require('util')._extend;
+var objectAssign = require('object-assign');
 var through = require('through2');
 var defaultPug = require('pug');
 var ext = require('gulp-util').replaceExtension;
 var PluginError = require('gulp-util').PluginError;
 
 module.exports = function gulpPug(options) {
-  var opts = extend({}, options);
+  var opts = objectAssign({}, options);
   var pug = opts.pug || opts.jade || defaultPug;
 
   return through.obj(function compilePug(file, enc, cb) {
