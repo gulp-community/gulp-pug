@@ -1,6 +1,6 @@
 {
   "name": "gulp-pug",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Gulp plugin for compiling Pug templates",
   "keywords": [
     "jade",
