@@ -90,6 +90,39 @@ test('should compile my pug files into HTML with data property', function(t) {
     }));
 });
 
+test('should compile my pug files into HTML with data from options and data' +
+  ' property', function(t) {
+  gulp.src(filename)
+    .pipe(setData())
+    .pipe(task({
+      data: {
+        foo: 'bar'
+      }
+    }))
+    .pipe(expectStream(t, {
+      data: {
+        title: 'Greetings!',
+        foo: 'bar'
+      }
+    }));
+});
+
+test('should overwrite data option fields with data property fields when' +
+  'compiling my pug files to HTML', function(t) {
+  gulp.src(filename)
+    .pipe(setData())
+    .pipe(task({
+      data: {
+        title: 'Yellow Curled'
+      }
+    }))
+    .pipe(expectStream(t, {
+      data: {
+        title: 'Greetings!'
+      }
+    }));
+});
+
 test('should compile my pug files into JS', function(t) {
   gulp.src(filename)
     .pipe(task({
