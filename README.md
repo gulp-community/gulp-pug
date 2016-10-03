@@ -16,7 +16,8 @@ gulp.task('views', function buildHTML() {
 ## API
 ### `pug([opts])`
  - `opts` (`Object`): Any options from [Pug's API][api] in addition to `pug`'s own options.
- - `opts.locals` (`Object`): Locals to compile the Pug with.
+ - `opts.locals` (`Object`): Locals to compile the Pug with. You can also provide locals through the `data` field of the file object, e.g. with [`gulp-data`][gulp-data]. They will be merged with `opts.locals`.
+ - `opts.data` (`Object`): Same as `opts.locals`.
  - `opts.client` (`Boolean`): Compile Pug to JavaScript code.
  - `opts.pug`: A custom instance of Pug for `gulp-pug` to use.
 
