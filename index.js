@@ -10,14 +10,12 @@ module.exports = function gulpPug(options) {
   var opts = objectAssign({}, options);
   var pug = opts.pug || opts.jade || defaultPug;
 
+  opts.data = objectAssign(opts.data || {}, opts.locals || {});
+
   return through.obj(function compilePug(file, enc, cb) {
+    var data = objectAssign({}, opts.data, file.data || {});
+
     opts.filename = file.path;
-
-    opts.data = objectAssign(opts.data || {}, opts.locals || {});
-    if (file.data) {
-      objectAssign(opts.data, file.data);
-    }
-
     file.path = ext(file.path, opts.client ? '.js' : '.html');
 
     if (file.isStream()) {
@@ -31,7 +29,7 @@ module.exports = function gulpPug(options) {
         if (opts.client) {
           compiled = pug.compileClient(contents, opts);
         } else {
-          compiled = pug.compile(contents, opts)(opts.data);
+          compiled = pug.compile(contents, opts)(data);
         }
         file.contents = new Buffer(compiled);
       } catch (e) {
