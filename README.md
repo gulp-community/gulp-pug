@@ -37,9 +37,9 @@ Returns a stream that compiles Vinyl files as Pug.
 ## LICENSE
 [MIT][license] &copy; Jamen Marzonie
 
- [status]: https://travis-ci.org/jamen/gulp-pug
- [status-img]: https://travis-ci.org/jamen/gulp-pug.png?branch=master
- [deps]: https://david-dm.org/jamen/gulp-pug.svg
+ [status]: https://travis-ci.org/pugjs/gulp-pug
+ [status-img]: https://travis-ci.org/pugjs/gulp-pug.png?branch=master
+ [deps]: https://david-dm.org/pugjs/gulp-pug.svg
  [downloads]: https://img.shields.io/npm/dm/gulp-pug.svg
  [pug]: http://github.com/pugjs/pug
  [api]: http://jade-lang.com/api/

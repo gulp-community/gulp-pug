@@ -9,7 +9,7 @@
     "stream",
     "compile"
   ],
-  "repository": "https://github.com/jamen/gulp-pug.git",
+  "repository": "https://github.com/pugjs/gulp-pug.git",
   "dependencies": {
     "gulp-util": "^3.0.2",
     "object-assign": "^4.1.0",
