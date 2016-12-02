@@ -9,6 +9,7 @@ var through = require('through2');
 var path = require('path');
 var fs = require('fs');
 var extname = require('path').extname;
+var objectAssign = require('object-assign');
 
 var filename = path.join(__dirname, './fixtures/helloworld.pug');
 
@@ -24,14 +25,17 @@ var setData = function setData() {
   });
 };
 
-var expectStream = function expectStream(t, options) {
+var expectStream = function expectStream(t, options, finish) {
   options = options || {};
+  if (typeof finish === 'undefined') {
+    finish = true;
+  }
   var ext = options.client ? '.js' : '.html';
   var compiler = options.client ? pug.compileClient : pug.compile;
   return through.obj(function expectData(file, enc, cb) {
-    options.filename = filename;
-    var compiled = compiler(fs.readFileSync(filename), options);
-    var data = options.data || options.locals;
+    options.filename = file.path.replace(new RegExp(ext + '$'), '.pug');
+    var compiled = compiler(fs.readFileSync(options.filename), options);
+    var data = objectAssign({}, options.data, options.locals, file.data);
     var expected = options.client ? compiled : compiled(data);
     t.equal(expected, String(file.contents));
     t.equal(extname(file.path), ext);
@@ -40,7 +44,10 @@ var expectStream = function expectStream(t, options) {
     } else {
       t.equal(extname(file.relative), '');
     }
-    t.end();
+    if (finish) {
+      t.end();
+    }
+    this.push(file);
     cb();
   });
 };
@@ -120,6 +127,33 @@ test('should overwrite data option fields with data property fields when' +
       data: {
         title: 'Greetings!'
       }
+    }));
+});
+
+test('should not extend data property fields of other files', function(t) {
+  var filename2 = path.join(__dirname, './fixtures/helloworld2.pug');
+  var finishedFileCount = 0;
+
+  gulp.src([
+    filename,
+    filename2
+  ])
+    .pipe(through.obj(function(file, enc, cb) {
+      if (path.basename(file.path) === 'helloworld.pug') {
+        file.data = {
+          title: 'Greetings!'
+        };
+      }
+      this.push(file);
+      cb();
+    }))
+    .pipe(task())
+    .pipe(expectStream(t, {}, false))
+    .pipe(through.obj(function(file, enc, cb) {
+      if (++finishedFileCount === 2) {
+        t.end();
+      }
+      cb();
     }));
 });
 
