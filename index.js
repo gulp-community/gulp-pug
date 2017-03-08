@@ -5,6 +5,7 @@ var through = require('through2');
 var defaultPug = require('pug');
 var ext = require('gulp-util').replaceExtension;
 var PluginError = require('gulp-util').PluginError;
+var log = require('gulp-util').log;
 
 module.exports = function gulpPug(options) {
   var opts = objectAssign({}, options);
@@ -26,6 +27,9 @@ module.exports = function gulpPug(options) {
       try {
         var compiled;
         var contents = String(file.contents);
+        if (opts.verbose === true) {
+          log('compiling file', file.path);
+        }
         if (opts.client) {
           compiled = pug.compileClient(contents, opts);
         } else {

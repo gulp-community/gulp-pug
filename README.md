@@ -20,7 +20,8 @@ gulp.task('views', function buildHTML() {
  - `opts.data` (`Object`): Same as `opts.locals`.
  - `opts.client` (`Boolean`): Compile Pug to JavaScript code.
  - `opts.pug`: A custom instance of Pug for `gulp-pug` to use.
-
+ - `opts.verbose`: display name of file from stream that is being compiled.
+ 
 To change `opts.filename` use [`gulp-rename`][gulp-rename] before `gulp-pug`.
 
 Returns a stream that compiles Vinyl files as Pug.
