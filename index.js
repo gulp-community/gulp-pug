@@ -43,3 +43,8 @@ module.exports = function gulpPug(options) {
     cb(null, file);
   });
 };
+
+module.exports.logError = function logError(error) {
+  process.stderr.write(error.toString() + '\n');
+  this.emit('end');
+};
