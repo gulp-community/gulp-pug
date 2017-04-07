@@ -4,6 +4,7 @@ var objectAssign = require('object-assign');
 var through = require('through2');
 var defaultPug = require('pug');
 var ext = require('gulp-util').replaceExtension;
+var jade = require('jade');
 var PluginError = require('gulp-util').PluginError;
 var log = require('gulp-util').log;
 
@@ -43,3 +44,5 @@ module.exports = function gulpPug(options) {
     cb(null, file);
   });
 };
+
+module.exports.jade = jade;
