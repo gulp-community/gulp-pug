@@ -21,7 +21,9 @@ gulp.task('views', function buildHTML() {
  - `opts.client` (`Boolean`): Compile Pug to JavaScript code.
  - `opts.pug`: A custom instance of Pug for `gulp-pug` to use.
  - `opts.verbose`: display name of file from stream that is being compiled.
- 
+ - `opts.namespace`: sets a namespace that's used for accessing the templates on client
+ - `opts.processname`: a function that takes the filename for the template and creates a unique function name to access the template when compiling to the client (the template function will be on the namespace defined with `opts.namespace`)
+
 To change `opts.filename` use [`gulp-rename`][gulp-rename] before `gulp-pug`.
 
 Returns a stream that compiles Vinyl files as Pug.
