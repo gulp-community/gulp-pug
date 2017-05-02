@@ -8,18 +8,18 @@ var PluginError = require('gulp-util').PluginError;
 var log = require('gulp-util').log;
 
 // A function to make the namespace client templates are compiled to
-const getNamespaceDeclaration = (ns) => {
+function getNamespaceDeclaration(ns) {
   const output = [];
   let curPath = 'this';
 
   if (ns !== 'this') {
     var nsParts = ns.split('.');
-    nsParts.forEach((curPart) => {
+    nsParts.forEach(function(curPart) {
       if (curPart !== 'this') {
         curPath += '[' + JSON.stringify(curPart) + ']';
         output.push(curPath + ' = ' + curPath + ' || {};');
       }
-    })
+    });
   }
 
   return {
@@ -39,11 +39,11 @@ module.exports = function gulpPug(options) {
     return name.replace('.pug', '');
   };
 
-  var processName = options.processName || defaultProcessName;
+  var processName = opts.processName || defaultProcessName;
 
   let nsInfo;
-  if (options.namespace) {
-    nsInfo = getNamespaceDeclaration(options.namespace)
+  if (opts.namespace) {
+    nsInfo = getNamespaceDeclaration(opts.namespace);
   }
 
   return through.obj(function compilePug(file, enc, cb) {
@@ -70,8 +70,9 @@ module.exports = function gulpPug(options) {
         if (opts.client) {
           compiled = pug.compileClient(contents, opts);
 
-          if (options.namespace) {
-            compiled = nsInfo.namespace + '['+JSON.stringify(filename)+'] = '+ compiled + ']';
+          if (opts.namespace) {
+            compiled = nsInfo.namespace + '[' + JSON.stringify(filename) +
+              '] = ' + compiled + ']';
           }
         } else {
           compiled = pug.compile(contents, opts)(data);
