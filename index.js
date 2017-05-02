@@ -7,11 +7,44 @@ var ext = require('gulp-util').replaceExtension;
 var PluginError = require('gulp-util').PluginError;
 var log = require('gulp-util').log;
 
+// A function to make the namespace client templates are compiled to
+const getNamespaceDeclaration = (ns) => {
+  const output = [];
+  let curPath = 'this';
+
+  if (ns !== 'this') {
+    var nsParts = ns.split('.');
+    nsParts.forEach((curPart) => {
+      if (curPart !== 'this') {
+        curPath += '[' + JSON.stringify(curPart) + ']';
+        output.push(curPath + ' = ' + curPath + ' || {};');
+      }
+    })
+  }
+
+  return {
+    namespace: curPath,
+    declaration: output.join('\n')
+  };
+}
+
 module.exports = function gulpPug(options) {
   var opts = objectAssign({}, options);
   var pug = opts.pug || opts.jade || defaultPug;
 
   opts.data = objectAssign(opts.data || {}, opts.locals || {});
+
+  // filename conversion for templates
+  var defaultProcessName = function(name) {
+    return name.replace('.pug', '');
+  };
+
+  var processName = options.processName || defaultProcessName;
+
+  let nsInfo;
+  if (options.namespace) {
+    nsInfo = getNamespaceDeclaration(options.namespace)
+  }
 
   return through.obj(function compilePug(file, enc, cb) {
     var data = objectAssign({}, opts.data, file.data || {});
@@ -27,11 +60,19 @@ module.exports = function gulpPug(options) {
       try {
         var compiled;
         var contents = String(file.contents);
+
+        let localFilePath = file.path.replace(process.cwd() + '/', '');
+        let filename = processName(localFilePath);
+
         if (opts.verbose === true) {
           log('compiling file', file.path);
         }
         if (opts.client) {
           compiled = pug.compileClient(contents, opts);
+
+          if (options.namespace) {
+            compiled = nsInfo.namespace + '['+JSON.stringify(filename)+'] = '+ compiled + ']';
+          }
         } else {
           compiled = pug.compile(contents, opts)(data);
         }
