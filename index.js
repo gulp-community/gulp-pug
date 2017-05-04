@@ -72,7 +72,7 @@ module.exports = function gulpPug(options) {
 
           if (opts.namespace) {
             compiled = nsInfo.namespace + '[' + JSON.stringify(filename) +
-              '] = ' + compiled + ']';
+              '] = ' + compiled;
           }
         } else {
           compiled = pug.compile(contents, opts)(data);
