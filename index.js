@@ -9,8 +9,8 @@ var log = require('gulp-util').log;
 
 // A function to make the namespace client templates are compiled to
 function getNamespaceDeclaration(ns) {
-  const output = [];
-  let curPath = 'this';
+  var output = [];
+  var curPath = 'this';
 
   if (ns !== 'this') {
     var nsParts = ns.split('.');
@@ -41,7 +41,7 @@ module.exports = function gulpPug(options) {
 
   var processName = opts.processName || defaultProcessName;
 
-  let nsInfo;
+  var nsInfo;
   if (opts.namespace) {
     nsInfo = getNamespaceDeclaration(opts.namespace);
   }
@@ -61,8 +61,8 @@ module.exports = function gulpPug(options) {
         var compiled;
         var contents = String(file.contents);
 
-        let localFilePath = file.path.replace(process.cwd() + '/', '');
-        let filename = processName(localFilePath);
+        var localFilePath = file.path.replace(process.cwd() + '/', '');
+        var filename = processName(localFilePath);
 
         if (opts.verbose === true) {
           log('compiling file', file.path);
