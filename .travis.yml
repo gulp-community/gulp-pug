@@ -1,12 +1,12 @@
 sudo: false
 language: node_js
 node_js:
-  - "6"
-  - "5"
-  - "4"
-  - "0.12"
-  - "0.11"
-  - "0.10"
+  # `gulp-pug` supports the active LTS and current versions of Node
+  # See https://github.com/nodejs/Release
+  - "lts/argon" # EOL: 2018-04-30
+  - "lts/boron" # EOL: April 2019
+  - "lts/carbon" # EOL: December 2019
+  - "stable"
 
 env:
   - PUG=pug@2.0.0-alpha6

@@ -21,7 +21,7 @@
     "LICENSE"
   ],
   "engines": {
-    "node": ">= 0.10"
+    "node": ">= 4.0.0"
   },
   "scripts": {
     "test": "gulp eslint && tap ./test"
