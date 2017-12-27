@@ -6,14 +6,14 @@ var task = require('../');
 
 var path = require('path');
 var fs = require('fs');
-var File = require('gulp-util').File;
-var PluginError = require('gulp-util').PluginError;
+var Vinyl = require('vinyl');
+var PluginError = require('plugin-error');
 
 var filePath = path.join(__dirname, 'fixtures', 'helloworld.pug');
 var base = path.join(__dirname, 'fixtures');
 var cwd = __dirname;
 
-var file = new File({
+var file = new Vinyl({
   path: filePath,
   base: base,
   cwd: cwd,

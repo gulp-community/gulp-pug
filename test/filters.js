@@ -5,7 +5,7 @@ var test = require('tap').test;
 var task = require('../');
 var path = require('path');
 var fs = require('fs');
-var gutil = require('gulp-util');
+var Vinyl = require('vinyl');
 
 var options = {
   filters: {
@@ -19,7 +19,7 @@ var filePath = path.join(__dirname, 'fixtures', 'filters.pug');
 var base = path.join(__dirname, 'fixtures');
 var cwd = __dirname;
 
-var file = new gutil.File({
+var file = new Vinyl({
   path: filePath,
   base: base,
   cwd: cwd,
