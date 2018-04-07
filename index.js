@@ -1,20 +1,20 @@
 'use strict';
 
-var objectAssign = require('object-assign');
-var through = require('through2');
-var defaultPug = require('pug');
-var ext = require('gulp-util').replaceExtension;
-var PluginError = require('gulp-util').PluginError;
-var log = require('gulp-util').log;
+const objectAssign = require('object-assign');
+const through = require('through2');
+const defaultPug = require('pug');
+const ext = require('gulp-util').replaceExtension;
+const PluginError = require('gulp-util').PluginError;
+const log = require('gulp-util').log;
 
 module.exports = function gulpPug(options) {
-  var opts = objectAssign({}, options);
-  var pug = opts.pug || opts.jade || defaultPug;
+  const opts = objectAssign({}, options);
+  const pug = opts.pug || opts.jade || defaultPug;
 
   opts.data = objectAssign(opts.data || {}, opts.locals || {});
 
   return through.obj(function compilePug(file, enc, cb) {
-    var data = objectAssign({}, opts.data, file.data || {});
+    const data = objectAssign({}, opts.data, file.data || {});
 
     opts.filename = file.path;
     file.path = ext(file.path, opts.client ? '.js' : '.html');
@@ -25,8 +25,8 @@ module.exports = function gulpPug(options) {
 
     if (file.isBuffer()) {
       try {
-        var compiled;
-        var contents = String(file.contents);
+        let compiled;
+        const contents = String(file.contents);
         if (opts.verbose === true) {
           log('compiling file', file.path);
         }

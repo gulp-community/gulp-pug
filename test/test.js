@@ -1,42 +1,44 @@
 'use strict';
 
-var test = require('tap').test;
+const test = require('tap').test;
 
-var gulp = require('gulp');
-var task = require('../');
-var pug = require('pug');
-var through = require('through2');
-var path = require('path');
-var fs = require('fs');
-var extname = require('path').extname;
-var objectAssign = require('object-assign');
+const gulp = require('gulp');
+const task = require('../');
+const pug = require('pug');
+const through = require('through2');
+const path = require('path');
+const fs = require('fs');
+const extname = require('path').extname;
+const objectAssign = require('object-assign');
 
-var filename = path.join(__dirname, './fixtures/helloworld.pug');
+const filename = path.join(__dirname, './fixtures/helloworld.pug');
 
 // Mock Data Plugin
-// (not testing the gulp-data plugin options, just that gulp-pug can get its data from file.data)
-var setData = function setData() {
+// (not testing the gulp-data plugin options, just that gulp-pug can get its
+// data from file.data)
+const setData = function setData() {
   return through.obj(function(file, enc, callback) {
     file.data = {
-      title: 'Greetings!'
+      title: 'Greetings!',
     };
+    // eslint-disable-next-line no-invalid-this
     this.push(file);
     return callback();
   });
 };
 
-var expectStream = function expectStream(t, options, finish) {
+const expectStream = function expectStream(t, options, finish) {
   options = options || {};
   if (typeof finish === 'undefined') {
     finish = true;
   }
-  var ext = options.client ? '.js' : '.html';
-  var compiler = options.client ? pug.compileClient : pug.compile;
+  const ext = options.client ? '.js' : '.html';
+  const compiler = options.client ? pug.compileClient : pug.compile;
   return through.obj(function expectData(file, enc, cb) {
     options.filename = file.path.replace(new RegExp(ext + '$'), '.pug');
-    var compiled = compiler(fs.readFileSync(options.filename), options);
-    var data = objectAssign({}, options.data, options.locals, file.data);
-    var expected = options.client ? compiled : compiled(data);
+    const compiled = compiler(fs.readFileSync(options.filename), options);
+    const data = objectAssign({}, options.data, options.locals, file.data);
+    const expected = options.client ? compiled : compiled(data);
     t.equal(expected, String(file.contents));
     t.equal(extname(file.path), ext);
     if (file.relative) {
@@ -47,6 +49,7 @@ var expectStream = function expectStream(t, options, finish) {
     if (finish) {
       t.end();
     }
+    // eslint-disable-next-line no-invalid-this
     this.push(file);
     cb();
   });
@@ -62,13 +65,13 @@ test('should compile my pug files into HTML with locals', function(t) {
   gulp.src(filename)
     .pipe(task({
       locals: {
-        title: 'Yellow Curled'
-      }
+        title: 'Yellow Curled',
+      },
     }))
     .pipe(expectStream(t, {
       locals: {
-        title: 'Yellow Curled'
-      }
+        title: 'Yellow Curled',
+      },
     }));
 });
 
@@ -76,13 +79,13 @@ test('should compile my pug files into HTML with data', function(t) {
   gulp.src(filename)
     .pipe(task({
       data: {
-        title: 'Yellow Curled'
-      }
+        title: 'Yellow Curled',
+      },
     }))
     .pipe(expectStream(t, {
       data: {
-        title: 'Yellow Curled'
-      }
+        title: 'Yellow Curled',
+      },
     }));
 });
 
@@ -92,8 +95,8 @@ test('should compile my pug files into HTML with data property', function(t) {
     .pipe(task())
     .pipe(expectStream(t, {
       data: {
-        title: 'Greetings!'
-      }
+        title: 'Greetings!',
+      },
     }));
 });
 
@@ -103,14 +106,14 @@ test('should compile my pug files into HTML with data from options and data' +
     .pipe(setData())
     .pipe(task({
       data: {
-        foo: 'bar'
-      }
+        foo: 'bar',
+      },
     }))
     .pipe(expectStream(t, {
       data: {
         title: 'Greetings!',
-        foo: 'bar'
-      }
+        foo: 'bar',
+      },
     }));
 });
 
@@ -120,30 +123,31 @@ test('should overwrite data option fields with data property fields when' +
     .pipe(setData())
     .pipe(task({
       data: {
-        title: 'Yellow Curled'
-      }
+        title: 'Yellow Curled',
+      },
     }))
     .pipe(expectStream(t, {
       data: {
-        title: 'Greetings!'
-      }
+        title: 'Greetings!',
+      },
     }));
 });
 
 test('should not extend data property fields of other files', function(t) {
-  var filename2 = path.join(__dirname, './fixtures/helloworld2.pug');
-  var finishedFileCount = 0;
+  const filename2 = path.join(__dirname, './fixtures/helloworld2.pug');
+  let finishedFileCount = 0;
 
   gulp.src([
     filename,
-    filename2
+    filename2,
   ])
     .pipe(through.obj(function(file, enc, cb) {
       if (path.basename(file.path) === 'helloworld.pug') {
         file.data = {
-          title: 'Greetings!'
+          title: 'Greetings!',
         };
       }
+      // eslint-disable-next-line no-invalid-this
       this.push(file);
       cb();
     }))
@@ -160,17 +164,17 @@ test('should not extend data property fields of other files', function(t) {
 test('should compile my pug files into JS', function(t) {
   gulp.src(filename)
     .pipe(task({
-      client: true
+      client: true,
     }))
     .pipe(expectStream(t, {
-      client: true
+      client: true,
     }));
 });
 
 test('should always return contents as buffer with client = true', function(t) {
   gulp.src(filename)
     .pipe(task({
-      client: true
+      client: true,
     }))
     .pipe(through.obj(function(file, enc, cb) {
       t.ok(file.contents instanceof Buffer);

@@ -1,34 +1,34 @@
 'use strict';
 
-var test = require('tap').test;
+const test = require('tap').test;
 
-var task = require('../');
-var path = require('path');
-var fs = require('fs');
-var gutil = require('gulp-util');
+const task = require('../');
+const path = require('path');
+const fs = require('fs');
+const gutil = require('gulp-util');
 
-var options = {
+const options = {
   filters: {
     shout: function(str) {
       return str.toUpperCase() + '!!!!';
-    }
-  }
+    },
+  },
 };
 
-var filePath = path.join(__dirname, 'fixtures', 'filters.pug');
-var base = path.join(__dirname, 'fixtures');
-var cwd = __dirname;
+const filePath = path.join(__dirname, 'fixtures', 'filters.pug');
+const base = path.join(__dirname, 'fixtures');
+const cwd = __dirname;
 
-var file = new gutil.File({
+const file = new gutil.File({
   path: filePath,
   base: base,
   cwd: cwd,
-  contents: fs.readFileSync(filePath)
+  contents: fs.readFileSync(filePath),
 });
 
 test('should compile a pug template with a custom pug instance with filters',
 function(t) {
-  var stream = task(options);
+  const stream = task(options);
   stream.on('data', function(newFile) {
     t.ok(newFile);
     t.ok(newFile.contents);

@@ -1,12 +1,12 @@
 'use strict';
 
-var test = require('tap').test;
+const test = require('tap').test;
 
-var gulp = require('gulp');
-var task = require('../');
-var path = require('path');
+const gulp = require('gulp');
+const task = require('../');
+const path = require('path');
 
-var filename = path.join(__dirname, './fixtures/pug-error.pug');
+const filename = path.join(__dirname, './fixtures/pug-error.pug');
 
 test('should emit errors of pug correctly', function(t) {
   gulp.src(filename)

@@ -9,13 +9,7 @@
     "stream",
     "compile"
   ],
-  "repository": "https://github.com/pugjs/gulp-pug.git",
-  "dependencies": {
-    "gulp-util": "^3.0.2",
-    "object-assign": "^4.1.0",
-    "pug": ">=2.0.0-alpha <3",
-    "through2": "^2.0.0"
-  },
+  "repository": "https://github.com/gulp-community/gulp-pug.git",
   "files": [
     "index.js",
     "LICENSE"
@@ -27,11 +21,17 @@
     "test": "gulp eslint && tap ./test"
   },
   "license": "MIT",
+  "dependencies": {
+    "gulp-util": "^3.0.8",
+    "object-assign": "^4.1.1",
+    "pug": "^2.0.3",
+    "through2": "^2.0.3"
+  },
   "devDependencies": {
-    "eslint-config-google": "^0.5.0",
-    "eslint-config-xo": "^0.14.1",
-    "gulp": "^3.8.10",
-    "gulp-eslint": "^2.0.0",
-    "tap": "^1.3.1"
+    "eslint-config-google": "^0.9.1",
+    "gulp": "^4.0.0",
+    "gulp-cli": "^2.0.1",
+    "gulp-eslint": "^4.0.2",
+    "tap": "^11.1.3"
   }
 }

@@ -1,27 +1,27 @@
 'use strict';
 
-var test = require('tap').test;
+const test = require('tap').test;
 
-var task = require('../');
+const task = require('../');
 
-var path = require('path');
-var fs = require('fs');
-var File = require('gulp-util').File;
-var PluginError = require('gulp-util').PluginError;
+const path = require('path');
+const fs = require('fs');
+const File = require('gulp-util').File;
+const PluginError = require('gulp-util').PluginError;
 
-var filePath = path.join(__dirname, 'fixtures', 'helloworld.pug');
-var base = path.join(__dirname, 'fixtures');
-var cwd = __dirname;
+const filePath = path.join(__dirname, 'fixtures', 'helloworld.pug');
+const base = path.join(__dirname, 'fixtures');
+const cwd = __dirname;
 
-var file = new File({
+const file = new File({
   path: filePath,
   base: base,
   cwd: cwd,
-  contents: fs.createReadStream(filePath)
+  contents: fs.createReadStream(filePath),
 });
 
 test('should error if contents is a stream', function(t) {
-  var stream = task();
+  const stream = task();
   stream.on('error', function(err) {
     t.ok(err instanceof PluginError, 'not an instance of PluginError');
     t.end();
