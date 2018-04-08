@@ -9,7 +9,6 @@ const through = require('through2');
 const path = require('path');
 const fs = require('fs');
 const extname = require('path').extname;
-const objectAssign = require('object-assign');
 
 const filename = path.join(__dirname, './fixtures/helloworld.pug');
 
@@ -37,7 +36,7 @@ const expectStream = function expectStream(t, options, finish) {
   return through.obj(function expectData(file, enc, cb) {
     options.filename = file.path.replace(new RegExp(ext + '$'), '.pug');
     const compiled = compiler(fs.readFileSync(options.filename), options);
-    const data = objectAssign({}, options.data, options.locals, file.data);
+    const data = Object.assign({}, options.data, options.locals, file.data);
     const expected = options.client ? compiled : compiled(data);
     t.equal(expected, String(file.contents));
     t.equal(extname(file.path), ext);

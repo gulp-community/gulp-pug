@@ -1,6 +1,5 @@
 'use strict';
 
-const objectAssign = require('object-assign');
 const through = require('through2');
 const defaultPug = require('pug');
 const ext = require('replace-ext');
@@ -8,13 +7,13 @@ const PluginError = require('plugin-error');
 const log = require('fancy-log');
 
 module.exports = function gulpPug(options) {
-  const opts = objectAssign({}, options);
+  const opts = Object.assign({}, options);
   const pug = opts.pug || opts.jade || defaultPug;
 
-  opts.data = objectAssign(opts.data || {}, opts.locals || {});
+  opts.data = Object.assign(opts.data || {}, opts.locals || {});
 
   return through.obj(function compilePug(file, enc, cb) {
-    const data = objectAssign({}, opts.data, file.data || {});
+    const data = Object.assign({}, opts.data, file.data || {});
 
     opts.filename = file.path;
     file.path = ext(file.path, opts.client ? '.js' : '.html');

@@ -1,6 +1,7 @@
 # Next
 
 - **Patch**: Fix Typescript type definitions.
+- **Internal**: Drop dependency on `object-assign`.
 
 # v4.0.0 (2018-04-08)
 
