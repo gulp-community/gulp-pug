@@ -7,9 +7,3 @@ node_js:
   - "lts/boron" # EOL: April 2019
   - "lts/carbon" # EOL: December 2019
   - "stable"
-
-env:
-  - PUG=pug@2.0.0-alpha6
-  - PUG=pug@2.0.0-alpha7
-
-before_script: npm install $PUG
