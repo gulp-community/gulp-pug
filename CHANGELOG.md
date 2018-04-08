@@ -1,8 +1,8 @@
-# Next
+# v4.0.1 (2018-04-08)
 
-- **Patch**: Fix Typescript type definitions.
-- **Internal**: Drop dependency on `object-assign`.
-- **Internal**: Use `eslint` directly (without `gulp`).
+- **Patch**: Fix Typescript type definitions. (#179)
+- **Internal**: Drop dependency on `object-assign`. (#177)
+- **Internal**: Use `eslint` directly (without `gulp`). (#180)
 
 # v4.0.0 (2018-04-08)
 
