@@ -1,5 +1,4 @@
-import Transform from "stream";
-
+import { Transform } from "stream";
 import { Options as PugOptions } from "pug";
 
 /**

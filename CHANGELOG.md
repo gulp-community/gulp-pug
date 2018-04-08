@@ -1,3 +1,7 @@
+# Next
+
+- **Patch**: Fix Typescript type definitions.
+
 # v4.0.0 (2018-04-08)
 
 - **Breaking change**: Update required Node version from `0.10` to `4.0.0`. (#171)
