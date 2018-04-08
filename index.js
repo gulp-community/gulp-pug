@@ -3,9 +3,9 @@
 const objectAssign = require('object-assign');
 const through = require('through2');
 const defaultPug = require('pug');
-const ext = require('gulp-util').replaceExtension;
-const PluginError = require('gulp-util').PluginError;
-const log = require('gulp-util').log;
+const ext = require('replace-ext');
+const PluginError = require('plugin-error');
+const log = require('fancy-log');
 
 module.exports = function gulpPug(options) {
   const opts = objectAssign({}, options);
