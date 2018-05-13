@@ -35,6 +35,7 @@ Returns a stream that compiles Vinyl files as Pug.
  - [`gulp-data`][gulp-data]: Using locals in your Pug templates easier.
  - [`gulp-rename`][gulp-rename]: Change `opts.filename` passed into Pug.
  - [`gulp-wrap-amd`][gulp-wrap-amd]: Wrap your Pug in an AMD wrapper.
+ - [`gulp-frontmatter-wrangler`][gulp-frontmatter-wrangler]: Useful if you need YAML frontmatter at the top of your Pug file.
 
 ## Thanks
 
@@ -53,5 +54,6 @@ Returns a stream that compiles Vinyl files as Pug.
 [gulp-data]: https://npmjs.com/gulp-data
 [gulp-rename]: https://npmjs.com/gulp-rename
 [gulp-wrap-amd]: https://github.com/phated/gulp-wrap-amd
+[gulp-frontmatter-wrangler]: https://github.com/DougBeney/gulp-frontmatter-wrangler
 [phated]: https://github.com/phated
 [license]: LICENSE
