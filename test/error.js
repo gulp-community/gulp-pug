@@ -13,6 +13,7 @@ test('should emit errors of pug correctly', function(t) {
     .pipe(task()
       .on('error', function(err) {
         t.ok(err);
+        t.equal(err.filename, __dirname + '/fixtures/pug-error.pug');
         t.ok(err instanceof Error);
         t.end();
       }));
