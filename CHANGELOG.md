@@ -1,3 +1,7 @@
+# Next
+
+- **Patch**: Update dependencies
+
 # v4.0.1 (2018-04-08)
 
 - **Patch**: Fix Typescript type definitions. (#179)
