@@ -13,7 +13,7 @@ module.exports = function gulpPug(options) {
   opts.data = Object.assign(opts.data || {}, opts.locals || {});
 
   return through.obj(function compilePug(file, enc, cb) {
-    const data = Object.assign({}, opts.data, file.data || {});
+    const data = Object.assign({}, opts.client ? opts : opts.data, file.data || {});
 
     opts.filename = file.path;
     file.path = ext(file.path, opts.client ? '.js' : '.html');
@@ -30,7 +30,7 @@ module.exports = function gulpPug(options) {
           log('compiling file', file.path);
         }
         if (opts.client) {
-          compiled = pug.compileClient(contents, opts);
+          compiled = pug.compileClient(contents, data);
         } else {
           compiled = pug.compile(contents, opts)(data);
         }
