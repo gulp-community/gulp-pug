@@ -13,8 +13,8 @@ module.exports = function gulpPug(options) {
   opts.data = Object.assign(opts.data || {}, opts.locals || {});
 
   return through.obj(function compilePug(file, enc, cb) {
-    const data = Object.assign({}, 
-      opts.client ? opts : opts.data, 
+    const data = Object.assign({},
+      opts.client ? opts : opts.data,
       file.data || {});
 
     opts.filename = file.path;
