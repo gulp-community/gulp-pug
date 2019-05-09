@@ -5,6 +5,7 @@ const defaultPug = require('pug');
 const ext = require('replace-ext');
 const PluginError = require('plugin-error');
 const log = require('fancy-log');
+const vinylContents = require('vinyl-contents');
 
 module.exports = function gulpPug(options) {
   const opts = Object.assign({}, options);
@@ -18,14 +19,18 @@ module.exports = function gulpPug(options) {
     opts.filename = file.path;
     file.path = ext(file.path, opts.client ? '.js' : '.html');
 
-    if (file.isStream()) {
-      return cb(new PluginError('gulp-pug', 'Streaming not supported'));
-    }
+    vinylContents(file, function onContents(err, contents) {
+      if (err) {
+        return cb(new PluginError('gulp-pug', err));
+      }
 
-    if (file.isBuffer()) {
+      if (!contents) {
+        return cb(null, file);
+      }
+
       try {
         let compiled;
-        const contents = String(file.contents);
+
         if (opts.verbose === true) {
           log('compiling file', file.path);
         }
@@ -35,10 +40,11 @@ module.exports = function gulpPug(options) {
           compiled = pug.compile(contents, opts)(data);
         }
         file.contents = new Buffer(compiled);
-      } catch (e) {
-        return cb(new PluginError('gulp-pug', e));
+      } catch (err) {
+        return cb(new PluginError('gulp-pug', err));
       }
-    }
-    cb(null, file);
+
+      cb(null, file);
+    });
   });
 };

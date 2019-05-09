@@ -4,13 +4,15 @@ const expect = require('expect');
 const fs = require('fs');
 const { concat, from, pipe } = require('mississippi');
 const path = require('path');
-const PluginError = require('plugin-error');
 const Vinyl = require('vinyl');
-const task = require('../');
+const pug = require('pug');
+
+const plugin = require('../');
 
 const cwd = __dirname;
 const base = path.join(cwd, 'fixtures');
 const filePath = path.join(base, 'helloworld.pug');
+const fileContents = fs.readFileSync(filePath);
 
 const file = new Vinyl({
   path: filePath,
@@ -19,11 +21,18 @@ const file = new Vinyl({
   contents: fs.createReadStream(filePath),
 });
 
-describe('stream', function () {
-  it('should error if contents is a stream', function (done) {
-    pipe([from.obj([file]), task(), concat()], (err) => {
-      expect(err).toBeInstanceOf(PluginError);
-      done();
-    });
+describe('stream', function() {
+  it('should error if contents is a stream', function(done) {
+    function assert(files) {
+      var expected = pug.compile(fileContents)();
+      expect(files[0]).not.toBeUndefined();
+      expect(expected).toEqual(String(files[0].contents));
+    }
+
+    pipe([
+      from.obj([file]),
+      plugin(),
+      concat(assert),
+    ], done);
   });
 });
