@@ -180,12 +180,14 @@ test('should replace the template name with function result', function(t) {
         if (!file || !file.path) {
           return 'template';
         }
-        return '__' + path.basename(file.path, '.pug') + '__';
+        return '__' + path.basename(file.path, path.extname(file.path)) + '__';
       },
     }))
     .pipe(through.obj(function(file, enc, cb) {
       t.ok(file.contents instanceof Buffer);
-      let expected = 'function __' + path.basename(file.path, '.js') + '__(';
+      let expected = 'function __'
+          + path.basename(file.path, path.extname(file.path)) 
+          + '__(';
       t.ok(String(file.contents).indexOf(expected) >= 0);
       if (++finishedFileCount === 2) {
         t.end();
