@@ -170,6 +170,33 @@ test('should compile my pug files into JS', function(t) {
     }));
 });
 
+test('should replace the template name with function result', function(t) {
+  const filename2 = path.join(__dirname, './fixtures/helloworld2.pug');
+  let finishedFileCount = 0;
+  gulp.src([filename, filename2])
+    .pipe(task({
+      client: true,
+      name: function(file) {
+        if (!file || !file.path) {
+          return 'template';
+        }
+        return '__' + path.basename(file.path, path.extname(file.path)) + '__';
+      },
+    }))
+    .pipe(through.obj(function(file, enc, cb) {
+      t.ok(file.contents instanceof Buffer);
+      let expected = 'function __'
+          + path.basename(file.path, path.extname(file.path))
+          + '__(';
+      t.ok(String(file.contents).indexOf(expected) >= 0);
+      if (++finishedFileCount === 2) {
+        t.end();
+      }
+      cb();
+    }));
+});
+
+
 test('should always return contents as buffer with client = true', function(t) {
   gulp.src(filename)
     .pipe(task({

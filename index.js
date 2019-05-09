@@ -8,6 +8,7 @@ const log = require('fancy-log');
 
 module.exports = function gulpPug(options) {
   const opts = Object.assign({}, options);
+  const namefunc = typeof opts.name === 'function' ? opts.name : undefined;
   const pug = opts.pug || opts.jade || defaultPug;
 
   opts.data = Object.assign(opts.data || {}, opts.locals || {});
@@ -30,6 +31,9 @@ module.exports = function gulpPug(options) {
           log('compiling file', file.path);
         }
         if (opts.client) {
+          if (typeof namefunc === 'function') {
+            opts.name = namefunc(file);
+          }
           compiled = pug.compileClient(contents, opts);
         } else {
           compiled = pug.compile(contents, opts)(data);
