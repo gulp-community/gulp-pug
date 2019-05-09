@@ -1,193 +1,176 @@
 'use strict';
 
-const test = require('tap').test;
-
+const expect = require('expect');
+const fs = require('fs');
 const gulp = require('gulp');
-const task = require('../');
+const { concat, pipe } = require('mississippi');
+const path = require('path');
 const pug = require('pug');
 const through = require('through2');
-const path = require('path');
-const fs = require('fs');
-const extname = require('path').extname;
+const task = require('../');
 
 const filename = path.join(__dirname, './fixtures/helloworld.pug');
 
 // Mock Data Plugin
 // (not testing the gulp-data plugin options, just that gulp-pug can get its
 // data from file.data)
-const setData = function setData() {
-  return through.obj(function(file, enc, callback) {
+function setData() {
+  return through.obj((file, _enc, cb) => {
     file.data = {
       title: 'Greetings!',
     };
-    // eslint-disable-next-line no-invalid-this
-    this.push(file);
-    return callback();
+    cb(null, file);
   });
-};
+}
 
-const expectStream = function expectStream(t, options, finish) {
+function expectStream(options) {
   options = options || {};
-  if (typeof finish === 'undefined') {
-    finish = true;
-  }
   const ext = options.client ? '.js' : '.html';
   const compiler = options.client ? pug.compileClient : pug.compile;
-  return through.obj(function expectData(file, enc, cb) {
+
+  function assert(file, _enc, cb) {
     options.filename = file.path.replace(new RegExp(ext + '$'), '.pug');
     const compiled = compiler(fs.readFileSync(options.filename), options);
     const data = Object.assign({}, options.data, options.locals, file.data);
     const expected = options.client ? compiled : compiled(data);
-    t.equal(expected, String(file.contents));
-    t.equal(extname(file.path), ext);
+    expect(file.contents.toString()).toStrictEqual(expected);
+    expect(path.extname(file.path)).toStrictEqual(ext);
     if (file.relative) {
-      t.equal(extname(file.relative), ext);
+      expect(path.extname(file.relative)).toStrictEqual(ext);
     } else {
-      t.equal(extname(file.relative), '');
+      expect(path.extname(file.relative)).toStrictEqual('');
     }
-    if (finish) {
-      t.end();
-    }
-    // eslint-disable-next-line no-invalid-this
-    this.push(file);
-    cb();
+    cb(null, file);
+  }
+
+  return through.obj(assert);
+}
+
+describe('test', function() {
+  it('should compile my pug files into HTML', function(done) {
+    pipe([
+      gulp.src(filename),
+      task(),
+      expectStream(),
+      concat(),
+    ], done);
   });
-};
 
-test('should compile my pug files into HTML', function(t) {
-  gulp.src(filename)
-    .pipe(task())
-    .pipe(expectStream(t));
-});
-
-test('should compile my pug files into HTML with locals', function(t) {
-  gulp.src(filename)
-    .pipe(task({
+  it('should compile my pug files into HTML with locals', function(done) {
+    const options = {
       locals: {
         title: 'Yellow Curled',
       },
-    }))
-    .pipe(expectStream(t, {
-      locals: {
-        title: 'Yellow Curled',
-      },
-    }));
-});
+    };
 
-test('should compile my pug files into HTML with data', function(t) {
-  gulp.src(filename)
-    .pipe(task({
+    pipe([
+      gulp.src(filename),
+      task(options),
+      expectStream(options),
+      concat(),
+    ], done);
+  });
+
+  it('should compile my pug files into HTML with data', function(done) {
+    const options = {
       data: {
         title: 'Yellow Curled',
       },
-    }))
-    .pipe(expectStream(t, {
-      data: {
-        title: 'Yellow Curled',
-      },
-    }));
-});
+    };
 
-test('should compile my pug files into HTML with data property', function(t) {
-  gulp.src(filename)
-    .pipe(setData())
-    .pipe(task())
-    .pipe(expectStream(t, {
-      data: {
-        title: 'Greetings!',
-      },
-    }));
-});
+    pipe([
+      gulp.src(filename),
+      task(options),
+      expectStream(options),
+      concat(),
+    ], done);
+  });
 
-test('should compile my pug files into HTML with data from options and data' +
-  ' property', function(t) {
-  gulp.src(filename)
-    .pipe(setData())
-    .pipe(task({
-      data: {
-        foo: 'bar',
-      },
-    }))
-    .pipe(expectStream(t, {
-      data: {
-        title: 'Greetings!',
-        foo: 'bar',
-      },
-    }));
-});
+  it('should compile my pug files into HTML with data property', function(done) {
+    pipe([
+      gulp.src(filename),
+      setData(),
+      task(),
+      expectStream({ data: { title: 'Greetings' } }),
+      concat(),
+    ], done);
+  });
 
-test('should overwrite data option fields with data property fields when' +
-  'compiling my pug files to HTML', function(t) {
-  gulp.src(filename)
-    .pipe(setData())
-    .pipe(task({
-      data: {
-        title: 'Yellow Curled',
-      },
-    }))
-    .pipe(expectStream(t, {
-      data: {
-        title: 'Greetings!',
-      },
-    }));
-});
+  it('should compile my pug files into HTML with data from options and data property', function(done) {
+    pipe([
+      gulp.src(filename),
+      setData(),
+      task({ data: { foo: 'bar' } }),
+      expectStream({ data: { title: 'Greetings', foo: 'bar' } }),
+      concat(),
+    ], done);
+  });
 
-test('should not extend data property fields of other files', function(t) {
-  const filename2 = path.join(__dirname, './fixtures/helloworld2.pug');
-  let finishedFileCount = 0;
+  it('should overwrite data option fields with data property fields when compiling my pug files to HTML', function(done) {
+    pipe([
+      gulp.src(filename),
+      setData(),
+      task({ data: { title: 'Yellow Curled' } }),
+      expectStream({ data: { title: 'Greetings' } }),
+      concat(),
+    ], done);
+  });
 
-  gulp.src([
-    filename,
-    filename2,
-  ])
-    .pipe(through.obj(function(file, enc, cb) {
-      if (path.basename(file.path) === 'helloworld.pug') {
-        file.data = {
-          title: 'Greetings!',
-        };
-      }
-      // eslint-disable-next-line no-invalid-this
-      this.push(file);
-      cb();
-    }))
-    .pipe(task())
-    .pipe(expectStream(t, {}, false))
-    .pipe(through.obj(function(file, enc, cb) {
-      if (++finishedFileCount === 2) {
-        t.end();
-      }
-      cb();
-    }));
-});
+  it('should not extend data property fields of other files', function(done) {
+    const filename2 = path.join(__dirname, './fixtures/helloworld2.pug');
 
-test('should compile my pug files into JS', function(t) {
-  gulp.src(filename)
-    .pipe(task({
-      client: true,
-    }))
-    .pipe(expectStream(t, {
-      client: true,
-    }));
-});
+    pipe([
+      gulp.src([filename, filename2]),
+      through.obj((file, _enc, cb) => {
+        if (path.basename(file.path) === 'helloworld.pug') {
+          file.data = {
+            title: 'Greetings!',
+          };
+        }
+        cb(null, file);
+      }),
+      task(),
+      expectStream(),
+      concat(),
+    ], done);
+  });
 
-test('should always return contents as buffer with client = true', function(t) {
-  gulp.src(filename)
-    .pipe(task({
-      client: true,
-    }))
-    .pipe(through.obj(function(file, enc, cb) {
-      t.ok(file.contents instanceof Buffer);
-      t.end();
-      cb();
-    }));
-});
+  it('should compile my pug files into JS', function(done) {
+    const options = { client: true };
 
-test('should always return contents as buf with client = false', function(t) {
-  gulp.src(filename)
-    .pipe(task())
-    .pipe(through.obj(function(file, enc, cb) {
-      t.ok(file.contents instanceof Buffer);
-      t.end();
-      cb();
-    }));
+    pipe([
+      gulp.src(filename),
+      task(options),
+      expectStream(options),
+      concat(),
+    ], done);
+  });
+
+  it('should always return contents as buf with client = true', function(done) {
+    function assert(files) {
+      expect(files.length).toEqual(1);
+      const newFile = files[0];
+      expect(newFile.contents).toBeInstanceOf(Buffer);
+    }
+
+    pipe([
+      gulp.src(filename),
+      task({ client: true }),
+      concat(assert),
+    ], done);
+  });
+
+  it('should always return contents as buf with client = false', function(done) {
+    function assert(files) {
+      expect(files.length).toEqual(1);
+      const newFile = files[0];
+      expect(newFile.contents).toBeInstanceOf(Buffer);
+    }
+
+    pipe([
+      gulp.src(filename),
+      task(),
+      concat(assert),
+    ], done);
+  });
 });

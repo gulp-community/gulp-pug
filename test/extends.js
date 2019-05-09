@@ -1,11 +1,11 @@
 'use strict';
 
-const test = require('tap').test;
-
-const task = require('../');
-const path = require('path');
+const expect = require('expect');
 const fs = require('fs');
+const { concat, from, pipe } = require('mississippi');
+const path = require('path');
 const Vinyl = require('vinyl');
+const task = require('../');
 
 const filePath = path.join(__dirname, 'fixtures', 'extends.pug');
 const base = path.join(__dirname, 'fixtures');
@@ -18,13 +18,20 @@ const file = new Vinyl({
   contents: fs.readFileSync(filePath),
 });
 
-test('should compile a pug template with an extends', function(t) {
-  const stream = task();
-  stream.on('data', function(newFile) {
-    t.ok(newFile);
-    t.ok(newFile.contents);
-    t.equal(newFile.contents.toString(), '<div><h1>Hello World</h1></div>');
-    t.end();
+describe('extends', function() {
+  it('should compile a pug template with an extends', function(done) {
+    function assert(files) {
+      expect(files.length).toEqual(1);
+      const newFile = files[0];
+      expect(newFile).toMatchObject({
+        contents: Buffer.from('<div><h1>Hello World</h1></div>'),
+      });
+    }
+
+    pipe([
+      from.obj([file]),
+      task(),
+      concat(assert),
+    ], done);
   });
-  stream.write(file);
 });

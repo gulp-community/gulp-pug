@@ -1,0 +1,13 @@
+{
+  "globals": {
+    "describe": true,
+    "it": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2015
+  },
+  "rules": {
+    "max-len": "off"
+  },
+  "extends": "gulp"
+}

@@ -1,13 +1,12 @@
 'use strict';
 
-const test = require('tap').test;
-
-const task = require('../');
-
-const path = require('path');
+const expect = require('expect');
 const fs = require('fs');
-const Vinyl = require('vinyl');
+const { concat, from, pipe } = require('mississippi');
+const path = require('path');
 const PluginError = require('plugin-error');
+const Vinyl = require('vinyl');
+const task = require('../');
 
 const filePath = path.join(__dirname, 'fixtures', 'helloworld.pug');
 const base = path.join(__dirname, 'fixtures');
@@ -20,12 +19,18 @@ const file = new Vinyl({
   contents: fs.createReadStream(filePath),
 });
 
-test('should error if contents is a stream', function(t) {
-  const stream = task();
-  stream.on('error', function(err) {
-    t.ok(err instanceof PluginError, 'not an instance of PluginError');
-    t.end();
+describe('stream', function() {
+  it('should error if contents is a stream', function(done) {
+    pipe(
+      [from.obj([file]), task(), concat()],
+      (err) => {
+        try {
+          expect(err).toBeInstanceOf(PluginError);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      }
+    );
   });
-  stream.write(file);
-  stream.end();
 });

@@ -1,19 +1,26 @@
 'use strict';
 
-const test = require('tap').test;
-
+const expect = require('expect');
 const gulp = require('gulp');
-const task = require('../');
+const { concat, pipe } = require('mississippi');
 const path = require('path');
+const PluginError = require('plugin-error');
+const task = require('../');
 
 const filename = path.join(__dirname, './fixtures/pug-error.pug');
 
-test('should emit errors of pug correctly', function(t) {
-  gulp.src(filename)
-    .pipe(task()
-      .on('error', function(err) {
-        t.ok(err);
-        t.ok(err instanceof Error);
-        t.end();
-      }));
+describe('error', function() {
+  it('should emit errors of pug correctly', function(done) {
+    pipe(
+      [gulp.src(filename), task(), concat()],
+      (err) => {
+        try {
+          expect(err).toBeInstanceOf(PluginError);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      }
+    );
+  });
 });
