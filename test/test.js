@@ -186,7 +186,7 @@ test('should replace the template name with function result', function(t) {
     .pipe(through.obj(function(file, enc, cb) {
       t.ok(file.contents instanceof Buffer);
       let expected = 'function __'
-          + path.basename(file.path, path.extname(file.path)) 
+          + path.basename(file.path, path.extname(file.path))
           + '__(';
       t.ok(String(file.contents).indexOf(expected) >= 0);
       if (++finishedFileCount === 2) {
