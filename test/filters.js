@@ -26,14 +26,16 @@ const file = new Vinyl({
   contents: fs.readFileSync(filePath),
 });
 
-test('should compile a pug template with a custom pug instance with filters',
-function(t) {
-  const stream = task(options);
-  stream.on('data', function(newFile) {
-    t.ok(newFile);
-    t.ok(newFile.contents);
-    t.equal(newFile.contents.toString(), 'HELLO, TESTER!!!!');
-    t.end();
-  });
-  stream.write(file);
-});
+test(
+  'should compile a pug template with a custom pug instance with filters',
+  function(t) {
+    const stream = task(options);
+    stream.on('data', function(newFile) {
+      t.ok(newFile);
+      t.ok(newFile.contents);
+      t.equal(newFile.contents.toString(), 'HELLO, TESTER!!!!');
+      t.end();
+    });
+    stream.write(file);
+  }
+);

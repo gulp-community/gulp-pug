@@ -2,5 +2,5 @@
   "parserOptions": {
     "ecmaVersion": 2015
   },
-  "extends": "google"
+  "extends": "gulp"
 }
