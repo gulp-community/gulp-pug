@@ -1,5 +1,6 @@
 # Next
 
+- **Breaking change**: Update required Node version from `4.0.0` to `6.0.0` ([#195](https://github.com/gulp-community/gulp-pug/pull/195))
 - **Patch**: Update dependencies
 
 # v4.0.1 (2018-04-08)
