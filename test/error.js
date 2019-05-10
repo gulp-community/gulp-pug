@@ -1,18 +1,15 @@
 'use strict';
 
 const expect = require('expect');
-const gulp = require('gulp');
-const { concat, pipe } = require('mississippi');
-const path = require('path');
+const { concat, from, pipe } = require('mississippi');
 const PluginError = require('plugin-error');
 const task = require('../');
-
-const filename = path.join(__dirname, './fixtures/pug-error.pug');
+const { getFixture } = require('./get-fixture');
 
 describe('error', function() {
   it('should emit errors of pug correctly', function(done) {
     pipe(
-      [gulp.src(filename), task(), concat()],
+      [from.obj([getFixture('pug-error.pug')]), task(), concat()],
       (err) => {
         try {
           expect(err).toBeInstanceOf(PluginError);

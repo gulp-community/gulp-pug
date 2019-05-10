@@ -8,9 +8,9 @@ const PluginError = require('plugin-error');
 const Vinyl = require('vinyl');
 const task = require('../');
 
-const filePath = path.join(__dirname, 'fixtures', 'helloworld.pug');
-const base = path.join(__dirname, 'fixtures');
 const cwd = __dirname;
+const base = path.join(cwd, 'fixtures');
+const filePath = path.join(base, 'helloworld.pug');
 
 const file = new Vinyl({
   path: filePath,

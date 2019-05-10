@@ -2,14 +2,12 @@
 
 const expect = require('expect');
 const fs = require('fs');
-const gulp = require('gulp');
-const { concat, pipe } = require('mississippi');
+const { concat, from, pipe } = require('mississippi');
 const path = require('path');
 const pug = require('pug');
 const through = require('through2');
 const task = require('../');
-
-const filename = path.join(__dirname, './fixtures/helloworld.pug');
+const { getFixture } = require('./get-fixture');
 
 // Mock Data Plugin
 // (not testing the gulp-data plugin options, just that gulp-pug can get its
@@ -49,7 +47,7 @@ function expectStream(options) {
 describe('test', function() {
   it('should compile my pug files into HTML', function(done) {
     pipe([
-      gulp.src(filename),
+      from.obj([getFixture('helloworld.pug')]),
       task(),
       expectStream(),
       concat(),
@@ -64,7 +62,7 @@ describe('test', function() {
     };
 
     pipe([
-      gulp.src(filename),
+      from.obj([getFixture('helloworld.pug')]),
       task(options),
       expectStream(options),
       concat(),
@@ -79,7 +77,7 @@ describe('test', function() {
     };
 
     pipe([
-      gulp.src(filename),
+      from.obj([getFixture('helloworld.pug')]),
       task(options),
       expectStream(options),
       concat(),
@@ -88,7 +86,7 @@ describe('test', function() {
 
   it('should compile my pug files into HTML with data property', function(done) {
     pipe([
-      gulp.src(filename),
+      from.obj([getFixture('helloworld.pug')]),
       setData(),
       task(),
       expectStream({ data: { title: 'Greetings' } }),
@@ -98,7 +96,7 @@ describe('test', function() {
 
   it('should compile my pug files into HTML with data from options and data property', function(done) {
     pipe([
-      gulp.src(filename),
+      from.obj([getFixture('helloworld.pug')]),
       setData(),
       task({ data: { foo: 'bar' } }),
       expectStream({ data: { title: 'Greetings', foo: 'bar' } }),
@@ -108,7 +106,7 @@ describe('test', function() {
 
   it('should overwrite data option fields with data property fields when compiling my pug files to HTML', function(done) {
     pipe([
-      gulp.src(filename),
+      from.obj([getFixture('helloworld.pug')]),
       setData(),
       task({ data: { title: 'Yellow Curled' } }),
       expectStream({ data: { title: 'Greetings' } }),
@@ -117,10 +115,11 @@ describe('test', function() {
   });
 
   it('should not extend data property fields of other files', function(done) {
-    const filename2 = path.join(__dirname, './fixtures/helloworld2.pug');
-
     pipe([
-      gulp.src([filename, filename2]),
+      from.obj([
+        getFixture('helloworld.pug'),
+        getFixture('helloworld2.pug'),
+      ]),
       through.obj((file, _enc, cb) => {
         if (path.basename(file.path) === 'helloworld.pug') {
           file.data = {
@@ -139,7 +138,7 @@ describe('test', function() {
     const options = { client: true };
 
     pipe([
-      gulp.src(filename),
+      from.obj([getFixture('helloworld.pug')]),
       task(options),
       expectStream(options),
       concat(),
@@ -154,7 +153,7 @@ describe('test', function() {
     }
 
     pipe([
-      gulp.src(filename),
+      from.obj([getFixture('helloworld.pug')]),
       task({ client: true }),
       concat(assert),
     ], done);
@@ -168,7 +167,7 @@ describe('test', function() {
     }
 
     pipe([
-      gulp.src(filename),
+      from.obj([getFixture('helloworld.pug')]),
       task(),
       concat(assert),
     ], done);
