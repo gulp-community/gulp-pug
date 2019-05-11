@@ -21,7 +21,7 @@
   },
   "scripts": {
     "pretest": "npm run lint",
-    "test": "mocha test",
+    "test": "mocha --async-only",
     "lint": "eslint index.js \"test/**/*.js\""
   },
   "license": "MIT",
