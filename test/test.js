@@ -21,12 +21,12 @@ function setData() {
   });
 }
 
-function expectStream(options) {
+function assertStream(options) {
   options = options || {};
   const ext = options.client ? '.js' : '.html';
   const compiler = options.client ? pug.compileClient : pug.compile;
 
-  function assert(file, _enc, cb) {
+  function assert(file) {
     options.filename = file.path.replace(new RegExp(ext + '$'), '.pug');
     const compiled = compiler(fs.readFileSync(options.filename), options);
     const data = Object.assign({}, options.data, options.locals, file.data);
@@ -38,10 +38,9 @@ function expectStream(options) {
     } else {
       expect(path.extname(file.relative)).toStrictEqual('');
     }
-    cb(null, file);
   }
 
-  return through.obj(assert);
+  return concat((files) => files.forEach(assert));
 }
 
 describe('test', function() {
@@ -49,8 +48,7 @@ describe('test', function() {
     pipe([
       from.obj([getFixture('helloworld.pug')]),
       task(),
-      expectStream(),
-      concat(),
+      assertStream(),
     ], done);
   });
 
@@ -64,8 +62,7 @@ describe('test', function() {
     pipe([
       from.obj([getFixture('helloworld.pug')]),
       task(options),
-      expectStream(options),
-      concat(),
+      assertStream(options),
     ], done);
   });
 
@@ -79,8 +76,7 @@ describe('test', function() {
     pipe([
       from.obj([getFixture('helloworld.pug')]),
       task(options),
-      expectStream(options),
-      concat(),
+      assertStream(options),
     ], done);
   });
 
@@ -89,8 +85,7 @@ describe('test', function() {
       from.obj([getFixture('helloworld.pug')]),
       setData(),
       task(),
-      expectStream({ data: { title: 'Greetings' } }),
-      concat(),
+      assertStream({ data: { title: 'Greetings' } }),
     ], done);
   });
 
@@ -99,8 +94,7 @@ describe('test', function() {
       from.obj([getFixture('helloworld.pug')]),
       setData(),
       task({ data: { foo: 'bar' } }),
-      expectStream({ data: { title: 'Greetings', foo: 'bar' } }),
-      concat(),
+      assertStream({ data: { title: 'Greetings', foo: 'bar' } }),
     ], done);
   });
 
@@ -109,8 +103,7 @@ describe('test', function() {
       from.obj([getFixture('helloworld.pug')]),
       setData(),
       task({ data: { title: 'Yellow Curled' } }),
-      expectStream({ data: { title: 'Greetings' } }),
-      concat(),
+      assertStream({ data: { title: 'Greetings' } }),
     ], done);
   });
 
@@ -129,8 +122,7 @@ describe('test', function() {
         cb(null, file);
       }),
       task(),
-      expectStream(),
-      concat(),
+      assertStream(),
     ], done);
   });
 
@@ -140,8 +132,7 @@ describe('test', function() {
     pipe([
       from.obj([getFixture('helloworld.pug')]),
       task(options),
-      expectStream(options),
-      concat(),
+      assertStream(options),
     ], done);
   });
 
