@@ -21,16 +21,13 @@ const file = new Vinyl({
 
 describe('stream', function() {
   it('should error if contents is a stream', function(done) {
-    pipe(
-      [from.obj([file]), task(), concat()],
-      (err) => {
-        try {
-          expect(err).toBeInstanceOf(PluginError);
-          done();
-        } catch (err) {
-          done(err);
-        }
-      }
-    );
+    pipe([
+      from.obj([file]),
+      task(),
+      concat(),
+    ], (err) => {
+      expect(err).toBeInstanceOf(PluginError);
+      done();
+    });
   });
 });

@@ -1,6 +1,6 @@
 {
+  "extends": "gulp",
   "parserOptions": {
     "ecmaVersion": 2015
-  },
-  "extends": "gulp"
+  }
 }
