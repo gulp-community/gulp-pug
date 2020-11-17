@@ -49,7 +49,7 @@ Returns a stream that compiles Vinyl files as Pug.
 [status-img]: https://travis-ci.org/gulp-community/gulp-pug.png?branch=master
 [deps]: https://david-dm.org/gulp-community/gulp-pug.svg
 [downloads]: https://img.shields.io/npm/dm/gulp-pug.svg
-[pug]: http://github.com/gulp-community/pug
+[pug]: https://github.com/pugjs/pug
 [api]: https://pugjs.org/api/reference.html
 [gulp-data]: https://npmjs.com/gulp-data
 [gulp-rename]: https://npmjs.com/gulp-rename
