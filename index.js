@@ -36,7 +36,13 @@ module.exports = function gulpPug(options) {
         }
         file.contents = new Buffer(compiled);
       } catch (e) {
-        return cb(new PluginError('gulp-pug', e));
+        let pluginError;
+        if (opts.verbose === true) {
+          pluginError = new PluginError('gulp-pug', e, {showProperties: false})
+        } else {
+          pluginError = new PluginError('gulp-pug', e);
+        }
+        return cb(pluginError);
       }
     }
     cb(null, file);
