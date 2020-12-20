@@ -38,9 +38,9 @@ module.exports = function gulpPug(options) {
       } catch (e) {
         let pluginError;
         if (opts.verbose === true) {
-          pluginError = new PluginError('gulp-pug', e, {showProperties: false})
+          pluginError = new PluginError('gulp-pug', e)
         } else {
-          pluginError = new PluginError('gulp-pug', e);
+          pluginError = new PluginError('gulp-pug', e, {showProperties: false});
         }
         return cb(pluginError);
       }
