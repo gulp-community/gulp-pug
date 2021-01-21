@@ -13,13 +13,15 @@ This Gulp plugin enables you to compile your Pug templates into HTML or JS, with
 ## Usage
 
 ```js
-var pug = require('gulp-pug');
+const { src, dest } = require('gulp');
+const pug = require('gulp-pug');
 
-exports.views = function buildHTML() {
-  return gulp.src('views/*.pug')
-  .pipe(pug({
-    // Your options in here.
-  }))
+exports.views = () => {
+  return src('./src/*.pug')
+    .pipe(pug({
+      /Your options in here.
+    }))
+    .pipe(dest('./dist'))
 }
 ```
 
@@ -33,7 +35,7 @@ exports.views = function buildHTML() {
  - `opts.client` (`Boolean`): Compile Pug to JavaScript code.
  - `opts.pug`: A custom instance of Pug for `gulp-pug` to use.
  - `opts.verbose`: display name of file from stream that is being compiled.
- 
+
 To change `opts.filename` use [`gulp-rename`][gulp-rename] before `gulp-pug`.
 
 Returns a stream that compiles Vinyl files as Pug.
