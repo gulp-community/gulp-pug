@@ -19,7 +19,7 @@ const pug = require('gulp-pug');
 exports.views = () => {
   return src('./src/*.pug')
     .pipe(pug({
-      /Your options in here.
+      // Your options in here.
     }))
     .pipe(dest('./dist'))
 }
