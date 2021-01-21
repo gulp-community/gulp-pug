@@ -8,7 +8,7 @@
 
 [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][ci-image]][ci-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 
-This Gulp plugin enables you to compile your Pug templates into HTML or JS, with support for template locals, custom Pug filters, AMD wrapping, and others.  Here is a simple example using `gulp-pug`:
+Gulp plugin for compiling Pug templates. Enabling you to compile your Pug templates into HTML or JS, with support for template locals, custom Pug filters, AMD wrapping, and others.
 
 ## Usage
 
