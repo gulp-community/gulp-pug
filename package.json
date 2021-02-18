@@ -29,7 +29,7 @@
     "@types/pug": "^2.0.4",
     "fancy-log": "^1.3.3",
     "plugin-error": "^1.0.1",
-    "pug": "^2.0.3",
+    "pug": "^3.0.0",
     "replace-ext": "^1.0.0",
     "through2": "^3.0.1"
   },
