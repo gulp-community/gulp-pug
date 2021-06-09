@@ -182,4 +182,22 @@ describe('test', function () {
       done
     );
   });
+
+  it('skips over any files without contents', function (done) {
+    const file = getFixture('helloworld.pug');
+    file.contents = null;
+
+    function assert(files) {
+      expect(files.length).toEqual(1);
+      const newFile = files[0];
+      expect(newFile).toBe(file);
+      expect(newFile.contents).toBe(null);
+    }
+
+
+    pipe(
+      [from.obj([file]), task(), concat(assert)],
+      done
+    );
+  });
 });
