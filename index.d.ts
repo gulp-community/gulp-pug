@@ -1,5 +1,5 @@
-import { Transform } from "stream";
-import { Options as PugOptions } from "pug";
+import { Transform } from 'stream';
+import { Options as PugOptions } from 'pug';
 
 /**
  * Returns a stream that compiles Vinyl files as Pug.

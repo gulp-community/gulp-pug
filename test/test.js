@@ -43,124 +43,143 @@ function assertStream(options) {
   return concat((files) => files.forEach(assert));
 }
 
-describe('test', function() {
-  it('should compile my pug files into HTML', function(done) {
-    pipe([
-      from.obj([getFixture('helloworld.pug')]),
-      task(),
-      assertStream(),
-    ], done);
+describe('test', function () {
+  it('should compile my pug files into HTML', function (done) {
+    pipe(
+      [from.obj([getFixture('helloworld.pug')]), task(), assertStream()],
+      done
+    );
   });
 
-  it('should compile my pug files into HTML with locals', function(done) {
+  it('should compile my pug files into HTML with locals', function (done) {
     const options = {
       locals: {
         title: 'Yellow Curled',
       },
     };
 
-    pipe([
-      from.obj([getFixture('helloworld.pug')]),
-      task(options),
-      assertStream(options),
-    ], done);
+    pipe(
+      [
+        from.obj([getFixture('helloworld.pug')]),
+        task(options),
+        assertStream(options),
+      ],
+      done
+    );
   });
 
-  it('should compile my pug files into HTML with data', function(done) {
+  it('should compile my pug files into HTML with data', function (done) {
     const options = {
       data: {
         title: 'Yellow Curled',
       },
     };
 
-    pipe([
-      from.obj([getFixture('helloworld.pug')]),
-      task(options),
-      assertStream(options),
-    ], done);
+    pipe(
+      [
+        from.obj([getFixture('helloworld.pug')]),
+        task(options),
+        assertStream(options),
+      ],
+      done
+    );
   });
 
-  it('should compile my pug files into HTML with data property', function(done) {
-    pipe([
-      from.obj([getFixture('helloworld.pug')]),
-      setData(),
-      task(),
-      assertStream({ data: { title: 'Greetings' } }),
-    ], done);
+  it('should compile my pug files into HTML with data property', function (done) {
+    pipe(
+      [
+        from.obj([getFixture('helloworld.pug')]),
+        setData(),
+        task(),
+        assertStream({ data: { title: 'Greetings' } }),
+      ],
+      done
+    );
   });
 
-  it('should compile my pug files into HTML with data from options and data property', function(done) {
-    pipe([
-      from.obj([getFixture('helloworld.pug')]),
-      setData(),
-      task({ data: { foo: 'bar' } }),
-      assertStream({ data: { title: 'Greetings', foo: 'bar' } }),
-    ], done);
+  it('should compile my pug files into HTML with data from options and data property', function (done) {
+    pipe(
+      [
+        from.obj([getFixture('helloworld.pug')]),
+        setData(),
+        task({ data: { foo: 'bar' } }),
+        assertStream({ data: { title: 'Greetings', foo: 'bar' } }),
+      ],
+      done
+    );
   });
 
-  it('should overwrite data option fields with data property fields when compiling my pug files to HTML', function(done) {
-    pipe([
-      from.obj([getFixture('helloworld.pug')]),
-      setData(),
-      task({ data: { title: 'Yellow Curled' } }),
-      assertStream({ data: { title: 'Greetings' } }),
-    ], done);
+  it('should overwrite data option fields with data property fields when compiling my pug files to HTML', function (done) {
+    pipe(
+      [
+        from.obj([getFixture('helloworld.pug')]),
+        setData(),
+        task({ data: { title: 'Yellow Curled' } }),
+        assertStream({ data: { title: 'Greetings' } }),
+      ],
+      done
+    );
   });
 
-  it('should not extend data property fields of other files', function(done) {
-    pipe([
-      from.obj([
-        getFixture('helloworld.pug'),
-        getFixture('helloworld2.pug'),
-      ]),
-      through.obj((file, _enc, cb) => {
-        if (path.basename(file.path) === 'helloworld.pug') {
-          file.data = {
-            title: 'Greetings!',
-          };
-        }
-        cb(null, file);
-      }),
-      task(),
-      assertStream(),
-    ], done);
+  it('should not extend data property fields of other files', function (done) {
+    pipe(
+      [
+        from.obj([getFixture('helloworld.pug'), getFixture('helloworld2.pug')]),
+        through.obj((file, _enc, cb) => {
+          if (path.basename(file.path) === 'helloworld.pug') {
+            file.data = {
+              title: 'Greetings!',
+            };
+          }
+          cb(null, file);
+        }),
+        task(),
+        assertStream(),
+      ],
+      done
+    );
   });
 
-  it('should compile my pug files into JS', function(done) {
+  it('should compile my pug files into JS', function (done) {
     const options = { client: true };
 
-    pipe([
-      from.obj([getFixture('helloworld.pug')]),
-      task(options),
-      assertStream(options),
-    ], done);
+    pipe(
+      [
+        from.obj([getFixture('helloworld.pug')]),
+        task(options),
+        assertStream(options),
+      ],
+      done
+    );
   });
 
-  it('should always return contents as buf with client = true', function(done) {
+  it('should always return contents as buf with client = true', function (done) {
     function assert(files) {
       expect(files.length).toEqual(1);
       const newFile = files[0];
       expect(newFile.contents).toBeInstanceOf(Buffer);
     }
 
-    pipe([
-      from.obj([getFixture('helloworld.pug')]),
-      task({ client: true }),
-      concat(assert),
-    ], done);
+    pipe(
+      [
+        from.obj([getFixture('helloworld.pug')]),
+        task({ client: true }),
+        concat(assert),
+      ],
+      done
+    );
   });
 
-  it('should always return contents as buf with client = false', function(done) {
+  it('should always return contents as buf with client = false', function (done) {
     function assert(files) {
       expect(files.length).toEqual(1);
       const newFile = files[0];
       expect(newFile.contents).toBeInstanceOf(Buffer);
     }
 
-    pipe([
-      from.obj([getFixture('helloworld.pug')]),
-      task(),
-      concat(assert),
-    ], done);
+    pipe(
+      [from.obj([getFixture('helloworld.pug')]), task(), concat(assert)],
+      done
+    );
   });
 });

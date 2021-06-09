@@ -18,23 +18,25 @@ const pug = require('gulp-pug');
 
 exports.views = () => {
   return src('./src/*.pug')
-    .pipe(pug({
-      // Your options in here.
-    }))
-    .pipe(dest('./dist'))
-}
+    .pipe(
+      pug({
+        // Your options in here.
+      })
+    )
+    .pipe(dest('./dist'));
+};
 ```
 
 ## API
 
 ### `pug([opts])`
 
- - `opts` (`Object`): Any options from [Pug's API][api] in addition to `pug`'s own options.
- - `opts.locals` (`Object`): Locals to compile the Pug with. You can also provide locals through the `data` field of the file object, e.g. with [`gulp-data`][gulp-data]. They will be merged with `opts.locals`.
- - `opts.data` (`Object`): Same as `opts.locals`.
- - `opts.client` (`Boolean`): Compile Pug to JavaScript code.
- - `opts.pug`: A custom instance of Pug for `gulp-pug` to use.
- - `opts.verbose`: display name of file from stream that is being compiled.
+- `opts` (`Object`): Any options from [Pug's API][api] in addition to `pug`'s own options.
+- `opts.locals` (`Object`): Locals to compile the Pug with. You can also provide locals through the `data` field of the file object, e.g. with [`gulp-data`][gulp-data]. They will be merged with `opts.locals`.
+- `opts.data` (`Object`): Same as `opts.locals`.
+- `opts.client` (`Boolean`): Compile Pug to JavaScript code.
+- `opts.pug`: A custom instance of Pug for `gulp-pug` to use.
+- `opts.verbose`: display name of file from stream that is being compiled.
 
 To change `opts.filename` use [`gulp-rename`][gulp-rename] before `gulp-pug`.
 
@@ -42,11 +44,11 @@ Returns a stream that compiles Vinyl files as Pug.
 
 ## Also See
 
- - [`pug`][pug]
- - [`gulp-data`][gulp-data]: Using locals in your Pug templates easier.
- - [`gulp-rename`][gulp-rename]: Change `opts.filename` passed into Pug.
- - [`gulp-wrap-amd`][gulp-wrap-amd]: Wrap your Pug in an AMD wrapper.
- - [`gulp-frontmatter-wrangler`][gulp-frontmatter-wrangler]: Useful if you need YAML frontmatter at the top of your Pug file.
+- [`pug`][pug]
+- [`gulp-data`][gulp-data]: Using locals in your Pug templates easier.
+- [`gulp-rename`][gulp-rename]: Change `opts.filename` passed into Pug.
+- [`gulp-wrap-amd`][gulp-wrap-amd]: Wrap your Pug in an AMD wrapper.
+- [`gulp-frontmatter-wrangler`][gulp-frontmatter-wrangler]: Useful if you need YAML frontmatter at the top of your Pug file.
 
 ## License
 

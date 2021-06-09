@@ -19,13 +19,9 @@ const file = new Vinyl({
   contents: fs.createReadStream(filePath),
 });
 
-describe('stream', function() {
-  it('should error if contents is a stream', function(done) {
-    pipe([
-      from.obj([file]),
-      task(),
-      concat(),
-    ], (err) => {
+describe('stream', function () {
+  it('should error if contents is a stream', function (done) {
+    pipe([from.obj([file]), task(), concat()], (err) => {
       expect(err).toBeInstanceOf(PluginError);
       done();
     });
