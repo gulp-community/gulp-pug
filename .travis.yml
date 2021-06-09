@@ -1,9 +1,0 @@
-sudo: false
-language: node_js
-node_js:
-  # `gulp-pug` supports the active LTS and current versions of Node
-  # See https://github.com/nodejs/Release
-  - "lts/boron" # EOL: April 2019
-  - "lts/carbon" # EOL: December 2019
-  - "lts/dubnium" # EOL: April 2021
-  - "stable"

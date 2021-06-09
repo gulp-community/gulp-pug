@@ -1,17 +1,28 @@
-# gulp-pug [![Build Status][status-img]][status] ![Dependencies][deps] ![Downloads][downloads]
-> Gulp plugin for compiling Pug templates
+<p align="center">
+  <a href="http://gulpjs.com">
+    <img height="257" width="257" src="https://raw.githubusercontent.com/gulpjs/artwork/master/community/logo-2021/community.png">
+  </a>
+</p>
 
-This Gulp plugin enables you to compile your Pug templates into HTML or JS, with support for template locals, custom Pug filters, AMD wrapping, and others.  Here is a simple example using `gulp-pug`:
+# gulp-pug
 
-```javascript
-var pug = require('gulp-pug');
+[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][ci-image]][ci-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 
-gulp.task('views', function buildHTML() {
-  return gulp.src('views/*.pug')
-  .pipe(pug({
-    // Your options in here.
-  }))
-});
+Gulp plugin for compiling Pug templates. Enabling you to compile your Pug templates into HTML or JS, with support for template locals, custom Pug filters, AMD wrapping, and others.
+
+## Usage
+
+```js
+const { src, dest } = require('gulp');
+const pug = require('gulp-pug');
+
+exports.views = () => {
+  return src('./src/*.pug')
+    .pipe(pug({
+      // Your options in here.
+    }))
+    .pipe(dest('./dist'))
+}
 ```
 
 ## API
@@ -24,7 +35,7 @@ gulp.task('views', function buildHTML() {
  - `opts.client` (`Boolean`): Compile Pug to JavaScript code.
  - `opts.pug`: A custom instance of Pug for `gulp-pug` to use.
  - `opts.verbose`: display name of file from stream that is being compiled.
- 
+
 To change `opts.filename` use [`gulp-rename`][gulp-rename] before `gulp-pug`.
 
 Returns a stream that compiles Vinyl files as Pug.
@@ -37,23 +48,27 @@ Returns a stream that compiles Vinyl files as Pug.
  - [`gulp-wrap-amd`][gulp-wrap-amd]: Wrap your Pug in an AMD wrapper.
  - [`gulp-frontmatter-wrangler`][gulp-frontmatter-wrangler]: Useful if you need YAML frontmatter at the top of your Pug file.
 
-## Thanks
+## License
 
- - Many thanks to [Blaine Bublitz][phated] for the original `gulp-jade` plugin.
+MIT
 
-## LICENSE
+<!-- prettier-ignore-start -->
+[downloads-image]: https://img.shields.io/npm/dm/gulp-pug.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/gulp-pug
+[npm-image]: https://img.shields.io/npm/v/gulp-pug.svg?style=flat-square
 
-[MIT][license] &copy; Jamen Marzonie
+[ci-url]: https://github.com/gulp-community/gulp-pug/actions?query=workflow:dev
+[ci-image]: https://img.shields.io/github/workflow/status/gulp-community/gulp-pug/dev?style=flat-square
 
-[status]: https://travis-ci.org/gulp-community/gulp-pug
-[status-img]: https://travis-ci.org/gulp-community/gulp-pug.png?branch=master
-[deps]: https://david-dm.org/gulp-community/gulp-pug.svg
-[downloads]: https://img.shields.io/npm/dm/gulp-pug.svg
-[pug]: http://github.com/gulp-community/pug
+[coveralls-url]: https://coveralls.io/r/gulp-community/gulp-pug
+[coveralls-image]: https://img.shields.io/coveralls/gulp-community/gulp-pug/master.svg?style=flat-square
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+[pug]: https://github.com/pugjs/pug
 [api]: https://pugjs.org/api/reference.html
 [gulp-data]: https://npmjs.com/gulp-data
 [gulp-rename]: https://npmjs.com/gulp-rename
 [gulp-wrap-amd]: https://github.com/phated/gulp-wrap-amd
 [gulp-frontmatter-wrangler]: https://github.com/DougBeney/gulp-frontmatter-wrangler
-[phated]: https://github.com/phated
-[license]: LICENSE
+<!-- prettier-ignore-end -->

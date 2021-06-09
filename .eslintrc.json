@@ -2,5 +2,13 @@
   "extends": "gulp",
   "parserOptions": {
     "ecmaVersion": 2015
+  },
+  "rules": {
+    "node/no-unsupported-features/es-syntax": [
+      2,
+      {
+        "version": ">=10"
+      }
+    ]
   }
 }

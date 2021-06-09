@@ -2,6 +2,15 @@
   "name": "gulp-pug",
   "version": "4.0.1",
   "description": "Gulp plugin for compiling Pug templates",
+  "nyc": {
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true
+  },
   "keywords": [
     "jade",
     "pug",
@@ -17,12 +26,12 @@
   ],
   "types": "./index.d.ts",
   "engines": {
-    "node": ">= 6.0.0"
+    "node": ">=10.13.0"
   },
   "scripts": {
     "pretest": "npm run lint",
-    "test": "mocha --async-only",
-    "lint": "eslint index.js \"test/**/*.js\""
+    "test": "nyc mocha --async-only",
+    "lint": "eslint ."
   },
   "license": "MIT",
   "dependencies": {
@@ -35,11 +44,12 @@
   },
   "devDependencies": {
     "@types/node": "^12.0.0",
-    "eslint": "^5.16.0",
-    "eslint-config-gulp": "^3.0.1",
-    "expect": "^24.8.0",
+    "eslint": "^7.0.0",
+    "eslint-config-gulp": "^5.0.0",
+    "expect": "^26.0.1",
     "mississippi": "^4.0.0",
-    "mocha": "^6.1.4",
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1",
     "vinyl": "^2.2.0"
   }
 }

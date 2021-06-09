@@ -1,6 +1,0 @@
-{
-  "extends": "gulp/test",
-  "parserOptions": {
-    "ecmaVersion": 2015
-  }
-}
