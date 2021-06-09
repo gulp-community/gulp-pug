@@ -21,7 +21,7 @@ module.exports = function gulpPug(options) {
 
     vinylContents(file, function onContents(err, contents) {
       if (err) {
-        return cb(new PluginError('gulp-pug', err));
+        return cb(new PluginError('gulp-pug', err, { fileName: opts.filename }));
       }
 
       if (!contents) {
@@ -41,7 +41,7 @@ module.exports = function gulpPug(options) {
         }
         file.contents = Buffer.from(compiled);
       } catch (err) {
-        return cb(new PluginError('gulp-pug', err));
+        return cb(new PluginError('gulp-pug', err, { fileName: opts.filename }));
       }
 
       cb(null, file);

@@ -10,6 +10,7 @@ describe('error', function () {
   it('should emit errors of pug correctly', function (done) {
     pipe([from.obj([getFixture('pug-error.pug')]), task(), concat()], (err) => {
       expect(err).toBeInstanceOf(PluginError);
+      expect(err.fileName).toMatch('pug-error.pug');
       done();
     });
   });
