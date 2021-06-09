@@ -1,6 +1,6 @@
 <p align="center">
   <a href="http://gulpjs.com">
-    <img height="257" width="114" src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png">
+    <img height="257" width="114" src="https://raw.githubusercontent.com/gulpjs/artwork/master/community/logo-2021/community.png">
   </a>
 </p>
 
@@ -62,4 +62,13 @@ MIT
 
 [coveralls-url]: https://coveralls.io/r/gulp-community/gulp-pug
 [coveralls-image]: https://img.shields.io/coveralls/gulp-community/gulp-pug/master.svg?style=flat-square
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+[pug]: http://github.com/gulp-community/pug
+[api]: https://pugjs.org/api/reference.html
+[gulp-data]: https://npmjs.com/gulp-data
+[gulp-rename]: https://npmjs.com/gulp-rename
+[gulp-wrap-amd]: https://github.com/phated/gulp-wrap-amd
+[gulp-frontmatter-wrangler]: https://github.com/DougBeney/gulp-frontmatter-wrangler
 <!-- prettier-ignore-end -->
