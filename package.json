@@ -49,7 +49,7 @@
     "eslint-config-gulp": "^5.0.0",
     "expect": "^27.0.2",
     "mississippi": "^4.0.0",
-    "mocha": "^9.0.0",
+    "mocha": "^8.0.0",
     "nyc": "^15.0.1",
     "vinyl": "^2.2.0"
   }
