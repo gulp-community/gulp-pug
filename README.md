@@ -65,7 +65,7 @@ MIT
 <!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
-[pug]: http://github.com/gulp-community/pug
+[pug]: https://github.com/pugjs/pug
 [api]: https://pugjs.org/api/reference.html
 [gulp-data]: https://npmjs.com/gulp-data
 [gulp-rename]: https://npmjs.com/gulp-rename
