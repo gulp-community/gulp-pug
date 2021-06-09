@@ -22,7 +22,7 @@ const file = new Vinyl({
 });
 
 describe('stream', function() {
-  it('should error if contents is a stream', function(done) {
+  it('should handle streaming contents', function(done) {
     function assert(files) {
       var expected = pug.compile(fileContents)();
       expect(files[0]).not.toBeUndefined();
