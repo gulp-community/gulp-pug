@@ -39,7 +39,7 @@ module.exports = function gulpPug(options) {
         } else {
           compiled = pug.compile(contents, opts)(data);
         }
-        file.contents = new Buffer(compiled);
+        file.contents = Buffer.from(compiled);
       } catch (err) {
         return cb(new PluginError('gulp-pug', err));
       }
