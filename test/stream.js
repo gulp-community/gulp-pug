@@ -14,9 +14,8 @@ const base = path.join(cwd, 'fixtures');
 const filePath = path.join(base, 'helloworld.pug');
 const fileContents = fs.readFileSync(filePath);
 
-
-describe('stream', function() {
-  it('should handle streaming contents', function(done) {
+describe('stream', function () {
+  it('should handle streaming contents', function (done) {
     const file = new Vinyl({
       path: filePath,
       base: base,
@@ -30,19 +29,15 @@ describe('stream', function() {
       expect(expected).toEqual(String(files[0].contents));
     }
 
-    pipe([
-      from.obj([file]),
-      plugin(),
-      concat(assert),
-    ], done);
+    pipe([from.obj([file]), plugin(), concat(assert)], done);
   });
 
-  it('bubbles errors if the stream errors', function(done) {
+  it('bubbles errors if the stream errors', function (done) {
     const file = new Vinyl({
       path: filePath,
       base: base,
       cwd: cwd,
-      contents: from([new Error("Boom")])
+      contents: from([new Error('Boom')]),
     });
 
     function assert(err) {
@@ -50,10 +45,6 @@ describe('stream', function() {
       done();
     }
 
-    pipe([
-      from.obj([file]),
-      plugin(),
-      concat(),
-    ], assert);
+    pipe([from.obj([file]), plugin(), concat()], assert);
   });
 });

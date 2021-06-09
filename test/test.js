@@ -194,10 +194,6 @@ describe('test', function () {
       expect(newFile.contents).toBe(null);
     }
 
-
-    pipe(
-      [from.obj([file]), task(), concat(assert)],
-      done
-    );
+    pipe([from.obj([file]), task(), concat(assert)], done);
   });
 });
