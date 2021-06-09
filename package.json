@@ -1,6 +1,6 @@
 {
   "name": "gulp-pug",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "Gulp plugin for compiling Pug templates",
   "nyc": {
     "reporter": [
