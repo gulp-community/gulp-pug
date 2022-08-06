@@ -12,6 +12,26 @@ Gulp plugin for compiling Pug templates. Enabling you to compile your Pug templa
 
 ## Usage
 
+ECMAScript Modules (ESM)
+
+```js
+import gulp from 'gulp';
+const { src, dest } = gulp;
+import gulpPug from 'gulp-pug';
+
+exports.views = () => {
+  return src('./src/*.pug')
+    .pipe(
+      gulpPug({
+        // Your options in here.
+      })
+    )
+    .pipe(dest('./dist'));
+};
+```
+
+CommonJS (CJS)
+
 ```js
 const { src, dest } = require('gulp');
 const pug = require('gulp-pug');
