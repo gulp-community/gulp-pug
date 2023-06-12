@@ -153,6 +153,32 @@ describe('test', function () {
     );
   });
 
+  it('should name the compiled JS function using name option', function (done) {
+    function name(file) {
+      if (!file || !file.name) {
+        return 'template';
+      }
+      return '__' + path.basename(file.path, '.pug') + '__';
+    }
+
+    const templateFilename = 'helloworld.pug';
+
+    function assert(files) {
+      expect(files.length).toEqual(1);
+      const newFileContent = files[0].contents.toString();
+      expect(newFileContent).toContain("function " + name(templateFilename) + "(");
+    }
+
+    pipe(
+      [
+        from.obj([getFixture(templateFilename)]),
+        task({ client: true, name }),
+        concat(assert),
+      ],
+      done
+    );
+  });
+
   it('should always return contents as buf with client = true', function (done) {
     function assert(files) {
       expect(files.length).toEqual(1);

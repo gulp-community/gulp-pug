@@ -28,6 +28,12 @@ declare namespace GulpPug {
     client?: boolean;
 
     /**
+     * If passed as a string, used as the name of your client side template function. If passed as a function, 
+     * it is called with a pug template file as an argument, to obtain a name of client side template function.
+     */
+    name?: string | ((file: VinylFile) => string);
+
+    /**
      * A custom instance of Pug for `gulp-pug` to use.
      */
     pug?: any;

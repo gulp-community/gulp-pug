@@ -35,6 +35,7 @@ exports.views = () => {
 - `opts.locals` (`Object`): Locals to compile the Pug with. You can also provide locals through the `data` field of the file object, e.g. with [`gulp-data`][gulp-data]. They will be merged with `opts.locals`.
 - `opts.data` (`Object`): Same as `opts.locals`.
 - `opts.client` (`Boolean`): Compile Pug to JavaScript code.
+- `opts.name` (`string | ((file: VinylFile) => string)`): The name of your client side template function, when `opts.client` is set to `True`. When passed as a function, takes current Pug file as an argument.
 - `opts.pug`: A custom instance of Pug for `gulp-pug` to use.
 - `opts.verbose`: display name of file from stream that is being compiled.
 
